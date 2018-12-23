@@ -1,0 +1,141 @@
+package cup.example;
+
+import java.util.*;
+import java_cup.runtime.*;
+import cup.example.*;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import yapl2.*;
+
+/*Terminal*/
+terminal            HEAD,START,SEMI,DEF,COMMA,COLON,LPAR,LGPAR,
+                    RGPAR,READ,WRITE,ASSIGN,IF,THEN,UMINUS,
+                    ELSE,WHILE,DO,NOT,RPAR;   
+terminal String     INT,DOUBLE,BOOL,NAME,STRING_CONST;
+terminal Boolean    TRUE,FALSE;
+terminal Double     DOUBLE_CONST;
+terminal Integer    MINUS,TIMES,PLUS,DIV,AND,OR,GT,GE,EQ,LE,LT;
+terminal Integer    INT_CONST;
+
+/* Non terminals */
+non terminal  Programma         Programma1;
+non terminal  Programma.Decls   Decls1;
+non terminal  List<Par_decl>    Par_decls;
+non terminal  Body              Bodys;
+non terminal  List<Stat>        Statements;
+non terminal  Bool_expr         Bool_expr1;
+non terminal  Expr              Expr1; 
+non terminal  Def_decl          Def_decl1;
+non terminal  Var_decl.VarDeclOP Var_decl1;
+non terminal  Stat              Stat1;
+non terminal  Var_decl.VarOp    Vars;
+non terminal  Expr.Type         Type1;
+non terminal  List<Expr.Type> 	Types;
+non terminal  List<Var_decl>   	Var_decls;
+non terminal  Stat             	Comp_stat;
+non terminal  Stat             	Simple_stat;
+non terminal  List<Expr>       	Out_values;
+non terminal  List<Expr>      	Exprs;
+non terminal  Integer           Arith_op,Bool_op,Rel_op;
+
+/* Precedences */
+/* fatto per eliminare ambiguità e i conflitti*/
+precedence left PLUS, MINUS,NAME,AND;
+precedence left TIMES,DIV,OR;
+precedence left UMINUS;
+
+
+/* The grammar rules */
+//ok
+Programma1 ::= HEAD Decls1:refD START Statements:refStatements {: RESULT=Programma.programmaOP(refD,refStatements); :};
+//ok
+Decls1 ::= Var_decl1:refVarD Decls1:refD {: refD.addVars(refVarD); RESULT=refD; :}
+        | Def_decl1:refDef Decls1:refD1 {:refD1.addDecl(refDef);  RESULT=refD1; :}
+        | /*epsilon */{:RESULT=Programma.getDecls();:};
+//ok       
+Statements ::= Stat1:refStat Statements:refStatements {: refStatements.add(refStat); RESULT=refStatements; :}
+           | Stat1 :refStat1 {:  RESULT=new ArrayList<Stat>(); RESULT.add(refStat1); :};
+//ok
+Var_decl1 ::= Type1:refType Vars:refVars SEMI {: RESULT=Var_decl.getVarDeclOP(refType,refVars); :} ;
+//ok        
+Type1 ::= INT:intero{:RESULT=Expr.makeType(intero);:}
+       | BOOL:booleano{:RESULT=Expr.makeType(booleano);:}
+       | DOUBLE:doubles{:RESULT=Expr.makeType(doubles);:};
+//ok
+Vars ::= NAME:id COMMA Vars:refV {: Expr.Identifier c=Expr.ident(id);  refV.addIdentifier(c); RESULT=refV;:}
+       | NAME:id2 {: RESULT=Var_decl.makeVarOP(); Expr.Identifier c=Expr.ident(id2); RESULT.addIdentifier(c);:};
+//ok
+Types ::= Type1:refType1 COMMA Types:refTypes1 {: RESULT=refTypes1; refTypes1.add(refType1); :}
+        | Type1:refType2 {: RESULT=new ArrayList<Expr.Type>(); RESULT.add(refType2); :};
+//ok
+Def_decl1 ::= DEF NAME:idNomeDef LPAR Var_decls:refVarDecls1 RPAR COLON Par_decls:refPar Bodys:refBody {:
+            Expr.Identifier d=Expr.ident(idNomeDef);   RESULT=Def_decl.makeDef_decl(d,refVarDecls1,refPar,refBody); :} ;
+//ok              
+Var_decls ::= Var_decl1:refVarDecl Var_decls:refVarDECLS {: refVarDECLS.add(refVarDecl); RESULT=refVarDECLS;  :}
+            | /*epsilon;*/ {:RESULT=new ArrayList<Var_decl>();:};
+            
+//OK
+Par_decls ::= Var_decl1:refVardecl1 Par_decls:refPardecls1 {: Par_decl p=Par_decl.pardeclOP(refVardecl1.getType(),refVardecl1.getVarOp());
+                                                               refPardecls1.add(p); 
+                                                               RESULT=refPardecls1; :}
+            | Var_decl1:refVardecl2 {: RESULT=new ArrayList<Par_decl>(); 
+                                       Par_decl p=Par_decl.pardeclOP(refVardecl2.getType(),refVardecl2.getVarOp());
+                                       RESULT.add(p); :};
+
+//OK
+Bodys ::= LGPAR Var_decls:refVarDecls1 Statements:refStatements1 RGPAR SEMI {:RESULT=Body.bodyOP(refVarDecls1,refStatements1);:};
+
+//OK
+Comp_stat ::= LGPAR Statements:refStatComp RGPAR {: RESULT=Stat.compStat(refStatComp); :} ;
+
+//OK
+Stat1 ::= Comp_stat:refCompStat {: RESULT=refCompStat;:}
+       | Simple_stat:refSimpleStat {:RESULT=refSimpleStat;:} ;
+//OK     
+Out_values ::= Expr1:refE1_O COMMA Out_values:refO1 {:RESULT=refO1; refO1.add(refE1_O);  :}
+              | STRING_CONST:stringa1 COMMA Out_values:refO2 {: RESULT=refO2; Expr str=Expr.makeStringConst(stringa1); refO2.add(str);  :}
+              | Expr1:refE2_0 {:RESULT=new ArrayList<Expr>(); RESULT.add(refE2_0);:}
+              | STRING_CONST:stringa2 {: RESULT=new ArrayList<Expr>(); Expr str=Expr.makeStringConst(stringa2); RESULT.add(str); :} ;
+//OK
+Simple_stat ::= Vars:refVarsS READ Types:refTypes SEMI {:RESULT=Stat.makeRead(refVarsS.getID(),refTypes);:}
+              | Out_values:refOutValues WRITE SEMI {: RESULT=Stat.writeOP1(refOutValues); :}
+              | NAME:idnomeS1 ASSIGN Expr1:refE1 SEMI {:RESULT=Stat.assign(idnomeS1,refE1);:}
+              | NAME:idnomeS2 LPAR Exprs:refE2 COLON Vars:refVarsS_S RPAR SEMI {: RESULT=Stat.call(idnomeS2,refE2,refVarsS_S.getID());:}
+              | IF LPAR Bool_expr1:refBool1 RPAR THEN Comp_stat:refComp1 ELSE Comp_stat:stmt SEMI {: RESULT=Stat.ifThenElse(refBool1,refComp1,stmt);:}
+              | IF LPAR Bool_expr1:refBool2 RPAR THEN Comp_stat:refComp3 SEMI {: RESULT=Stat.ifThen(refBool2,refComp3);:}
+              | WHILE LPAR Bool_expr1:refBool3 RPAR DO Comp_stat:refComp4 SEMI {: RESULT=Stat.loopWhile(refBool3,refComp4);:}
+              | NAME:id8 ASSIGN Bool_expr1:b1 SEMI{: RESULT=Stat.assignBool(id8,b1);   :};
+              
+//OK              
+Exprs ::= Expr1:refExpr1 COMMA Exprs:refExprs2 {: RESULT=refExprs2;refExprs2.add(refExpr1); :}
+        | Expr1:refExpr2 {: RESULT=new ArrayList<Expr>(); RESULT.add(refExpr2); :} ;
+//OK
+Expr1 ::= INT_CONST:i {:RESULT=Expr.intconst(i);:}
+       | DOUBLE_CONST:d {:RESULT=Expr.doubleconst(d);:}
+       | Expr1:refE_1 Arith_op:refAr_op Expr1:refE_2 {: RESULT=Expr.makeExprArith(refE_1,refAr_op,refE_2); :}
+       | NAME:idE {: RESULT=Expr.ident(idE); :}
+       | UMINUS Expr1:refE_3 {:RESULT=Expr.unop(refE_3);:}
+       | LPAR Expr1:refE_4 RPAR {: RESULT=Expr.priority(refE_4);:} ;
+
+//OK       
+Arith_op ::= PLUS:plus {:RESULT=plus;:}
+           | MINUS:minus {:RESULT=minus;:}
+           | TIMES:times {:RESULT=times;:}
+           | DIV:div {:RESULT=div;:};
+//OK           
+Bool_expr1 ::= TRUE:val_true {: RESULT=Bool_expr.boolConst(val_true);:}
+            | FALSE: false_true{: RESULT=Bool_expr.boolConst(false_true); :}
+            | Bool_expr1:refBool1 Bool_op:ref_BoolOP Bool_expr1:refBool2 {: RESULT=Bool_expr.binop(refBool1,ref_BoolOP,refBool2); :}
+            | NOT Bool_expr1:refBool3 {:RESULT=Bool_expr.unop(refBool3); :}
+            | Expr1:refE_b1 Rel_op:refE_RELOP Expr1:refE_b2 {:RESULT=Bool_expr.relop(refE_b1,refE_RELOP,refE_b2);:}
+            | LPAR Bool_expr1:refBool4 RPAR {: Bool_expr.priority(refBool4);:} 
+            | Expr1:expr1 Bool_op:opBool Expr1:expr2 {: RESULT=Bool_expr.binExpr(expr1,opBool,expr2); :};
+
+//OK            
+Bool_op ::= AND:and {:RESULT=and;:}
+          | OR:or {:RESULT=or;:} ;
+//OK
+Rel_op ::=  GT:gt {:RESULT=gt;:}
+          | GE:ge {:RESULT=ge;:}
+          | LT:lt {:RESULT=lt;:}
+          | LE:le {:RESULT=le;:}
+          | EQ:eq {:RESULT=eq;:};

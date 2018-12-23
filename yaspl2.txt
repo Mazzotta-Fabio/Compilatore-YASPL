@@ -1,0 +1,97 @@
+head
+
+int fine,op;
+
+int ris1,fib,molt,pot,d,result;
+
+def somma(int x;int y;):int result;
+{
+   result=x+y;
+};
+
+def moltiplicazione(int add1;int add2;):int result;
+{
+     int i;
+     i=0;
+	 result=0;
+     while(i<add2)
+	 do{
+	    result=result+add1;
+		i=i+1;
+	 };
+};
+
+def divisione(int z;int w;):int result;
+{
+    result=z/w;
+};
+
+def Fibonacci(int n;):int fib;{
+     int i,x,y;
+	 if(n==0)then{
+	    fib=0;
+	 }
+	 else{
+	    if(n==1)then{
+		   fib=1;
+		}
+		else{
+		    x=0;
+			y=1;
+			i=2;
+			while(i<=n)
+			do{
+			   fib=x+y;
+			   x=y;
+			   y=fib;
+			   i=i+1;
+			};
+		};
+	 };
+	 
+};
+
+def potenza(int base;int esp;):int result;{
+      int i;
+	  i=0;
+	  result=1;
+	  while(i<esp)
+	  do{
+	    result=result*base;
+		i=i+1;
+	  };
+};
+
+
+start
+     fine=0;
+	 while(fine==0)
+	 do{
+	     "Seleziona operazione da svolgere: somma(1),fibonacci(2),potenza(3),divisione(4),moltiplicazione(5)" ->;
+		 op <- int;
+		 if(op==1)then{
+		    somma(5,5:ris1);
+			"La somma dei due numeri è %d",ris1 ->;
+		 };
+		 if(op==2)then{
+		    Fibonacci(5:fib);
+			"Il risultato della serie è %d",fib ->;
+		 };
+		 if(op==3)then{
+		    potenza(2,3:pot);
+			"Il risultato della potenza è %d",pot ->;
+		 };
+		 if(op==4)then{
+		    divisione(4,2:d); 
+			"Il risultato della divisione è %d",d ->;
+		 };
+		 if(op==5)then{
+		    moltiplicazione(5,4:molt);
+		    "Il risultato della moltiplicazione è %d",molt ->;
+		 };
+		 if(op>5)then{
+		    "ERRORE"->;
+		 };
+		 "Vuoi continuare 0(continua) e 1(fine)"->;
+		  fine<-int;
+	 };

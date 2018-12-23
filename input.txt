@@ -1,0 +1,104 @@
+head
+	int fine;
+	int dato,op,dato1,dato2;
+	int result1;
+	double result2;
+	double d1,d2;
+	int y;
+	bool br;
+	int b,n;
+
+	
+	//prima funzione
+	
+	def menu(int op;):
+    	int tipoOP;
+   	 	{
+           "Seleziona l'operazione da eseguire: 1=addizione,2=sottrazione,3=moltiplicazione,4=divisione" ->;
+           op <- int;
+		   tipoOP=op;
+           "Vuoi usare interi(0) o double(1)?" ->;
+           dato <- int;
+           if(dato==1)then{
+              "Inserisci il primo numero double" ->;
+              d1 <- double;
+              "Inserisci il secondo numero double" ->;
+              d2 <- double;
+           }
+           else{
+           		if(dato==0)then{
+               		"Inserisci il primo numero intero"->;
+              		 dato1 <- int;
+              		 "Inserisci il secondo numero intero" ->;
+             		  dato2 <- int;
+              	 }
+              	 else{
+              	 	"ERRORE"->;
+              	 };
+           };
+    	};
+    	
+    	 //seconda funzione
+	def calcolaInt(int symbol;int tipo;):
+    	int resultInt;
+    	{
+    	   
+    	   if(tipo==0)then{
+    	       if(symbol==1)then{
+    	          resultInt=dato1+dato2;
+    	       };
+    	       if(symbol==2)then{
+    	          resultInt=dato1-dato2;
+    	       };
+    	       if(symbol==3)then{
+    	          resultInt=dato1*dato2;
+    	       };
+    	        if(symbol==4)then{
+    	          resultInt=dato1/dato2;
+    	       };
+    	       "Il risultato è %d",resultInt ->;
+    	   }
+    	   else{
+    	      "ERRORE" ->;
+    	   };
+    	};
+		
+	def calcola(int symbol;int tipo;):
+	    double resultDouble;
+	{
+	       if(tipo==1)then{
+			  if(symbol==1)then{
+    	         resultDouble=d1+d2;
+    	      };
+    	      if(symbol==2)then{
+    	         resultDouble=d1-d2;
+    	      };
+    	      if(symbol==3)then{
+    	         resultDouble=d1*d2;
+    	      };
+    	      if(symbol==4)then{
+    	         resultDouble=d1/d2;
+    	      };
+    	      "Il risultato double è %lf",resultDouble ->;
+    	   }
+		   else{
+		      "ERRORE" ->;
+		   };
+	};
+start
+    fine=0;
+    while(fine==0)
+    do{
+       menu(y:op);
+       if(dato==0)then{
+          calcolaInt(op,dato:result1);
+       }
+       else{
+       		calcola(op,dato:result2);
+       };
+       "Vuoi continuare? (digita 0 per continuare o 1 per uscire)"->;
+       fine <- int;
+       br=b && n;
+      
+    };
+   

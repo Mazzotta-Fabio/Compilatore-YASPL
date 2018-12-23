@@ -1,0 +1,16 @@
+head
+
+	
+	int x,y,somma;
+start
+	"Inserisci gli addendi"->;
+	x <- int;
+	y <- int;
+	somma=x+y;
+	if(somma>12)then{
+		somma=somma-5;
+	}
+	else{
+		somma=somma+5;
+	};
+	"SOMMA %d",somma ->;
