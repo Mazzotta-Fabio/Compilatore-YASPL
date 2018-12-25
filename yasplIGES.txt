@@ -14,4 +14,4 @@ start
 		somma=somma+5;
 	};
 	"SOMMA %d",somma ->;
-	"CIAO\n",->;
+	"CIAO"->;

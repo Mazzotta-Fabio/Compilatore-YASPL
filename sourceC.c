@@ -19,6 +19,7 @@ int main(void){
 
 
 	printf("SOMMA %d\n",somma);
+	printf("CIAO\n");
 	  system("pause");
 	return 0;
 }
