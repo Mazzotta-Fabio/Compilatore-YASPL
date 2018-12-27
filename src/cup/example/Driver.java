@@ -11,7 +11,7 @@ import esercitazione5_COMP.*;
 class Driver {
 	
 	public static void main(String[] args) throws Exception {
-		File f=new File("input.txt");
+		File f=new File("yaspl2.txt");
 		if(f.exists()){
 			//sorgente
 			FileInputStream in=new FileInputStream(f);
