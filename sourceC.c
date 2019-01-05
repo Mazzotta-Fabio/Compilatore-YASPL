@@ -1,125 +1,138 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-int fine,op;
-int ris1,fib,molt,pot,d,result;
-int somma(int x,int y){
-      int result;
-	result=x+y;
-    return result;
-}
+int fine;
+int dato,op,dato1,dato2;
+int result1;
+double result2;
+double d1,d2;
+int y;
+int br;
+int b,n;
+int menu(int op){
+      int tipoOP;
+	printf("Seleziona l'operazione da eseguire: 1=addizione,2=sottrazione,3=moltiplicazione,4=divisione\n");
+	scanf("%d",&op);
 
-int moltiplicazione(int add1,int add2){
-      int result;
-     int i;
-	i=0;
-	result=0;
-	while(i<add2)	{
-	result=result+add1;
-	i=i+1;
-	}
+	tipoOP=op;
+	printf("Vuoi usare interi(0) o double(1)?\n");
+	scanf("%d",&dato);
 
+	if(dato==1)	{
+	printf("Inserisci il primo numero double\n");
+	scanf("%lf",&d1);
 
-    return result;
-}
+	printf("Inserisci il secondo numero double\n");
+	scanf("%lf",&d2);
 
-int divisione(int z,int w){
-      int result;
-	result=z/w;
-    return result;
-}
-
-int Fibonacci(int n){
-      int fib;
-     int i,x,y;
-	if(n==0)	{
-	fib=0;
 	}
 
 	else	{
-	if(n==1)	{
-	fib=1;
+	if(dato==0)	{
+	printf("Inserisci il primo numero intero\n");
+	scanf("%d",&dato1);
+
+	printf("Inserisci il secondo numero intero\n");
+	scanf("%d",&dato2);
+
 	}
 
 	else	{
-	x=0;
-	y=1;
-	i=2;
-	while(i<=n)	{
-	fib=x+y;
-	x=y;
-	y=fib;
-	i=i+1;
+	printf("ERRORE\n");
 	}
 
 
 	}
 
 
-	}
-
-
-    return fib;
+    return tipoOP;
 }
 
-int potenza(int base,int esp){
-      int result;
-     int i;
-	i=0;
-	result=1;
-	while(i<esp)	{
-	result=result*base;
-	i=i+1;
+int calcolaInt(int symbol,int tipo){
+      int resultInt;
+	if(tipo==0)	{
+	if(symbol==1)	{
+	resultInt=dato1+dato2;
 	}
 
 
-    return result;
+	if(symbol==2)	{
+	resultInt=dato1-dato2;
+	}
+
+
+	if(symbol==3)	{
+	resultInt=dato1*dato2;
+	}
+
+
+	if(symbol==4)	{
+	resultInt=dato1/dato2;
+	}
+
+
+	printf("Il risultato è %d\n",resultInt);
+	}
+
+	else	{
+	printf("ERRORE\n");
+	}
+
+
+    return resultInt;
+}
+
+double calcola(int symbol,int tipo){
+      double resultDouble;
+	if(tipo==1)	{
+	if(symbol==1)	{
+	resultDouble=d1+d2;
+	}
+
+
+	if(symbol==2)	{
+	resultDouble=d1-d2;
+	}
+
+
+	if(symbol==3)	{
+	resultDouble=d1*d2;
+	}
+
+
+	if(symbol==4)	{
+	resultDouble=d1/d2;
+	}
+
+
+	printf("Il risultato double è %lf\n",resultDouble);
+	}
+
+	else	{
+	printf("ERRORE\n");
+	}
+
+
+    return resultDouble;
 }
 
 int main(void){
 	fine=0;
 	while(fine==0)	{
-	printf("Seleziona operazione da svolgere: somma(1),fibonacci(2),potenza(3),divisione(4),moltiplicazione(5)\n");
-	scanf("%d",&op);
+      op=menu(y);
+	if(dato==0)	{
+      result1=calcolaInt(op,dato);
+	}
 
-	if(op==1)	{
-      ris1=somma(5,5);
-	printf("La somma dei due numeri è %d\n",ris1);
+	else	{
+      result2=calcola(op,dato);
 	}
 
 
-	if(op==2)	{
-      fib=Fibonacci(5);
-	printf("Il risultato della serie è %d\n",fib);
-	}
-
-
-	if(op==3)	{
-      pot=potenza(2,3);
-	printf("Il risultato della potenza è %d\n",pot);
-	}
-
-
-	if(op==4)	{
-      d=divisione(4,2);
-	printf("Il risultato della divisione è %d\n",d);
-	}
-
-
-	if(op==5)	{
-      molt=moltiplicazione(5,4);
-	printf("Il risultato della moltiplicazione è %d\n",molt);
-	}
-
-
-	if(op>5)	{
-	printf("ERRORE\n");
-	}
-
-
-	printf("Vuoi continuare 0(continua) e 1(fine)\n");
+	printf("Vuoi continuare? (digita 0 per continuare o 1 per uscire)\n");
 	scanf("%d",&fine);
 
+	br=b&&n;
 	}
 
 
