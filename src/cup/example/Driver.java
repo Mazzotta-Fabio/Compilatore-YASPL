@@ -9,9 +9,9 @@ import drawTree.DrawTree;
 import esercitazione5_COMP.*;
 
 class Driver {
-	//file
+	
 	public static void main(String[] args) throws Exception {
-		File f=new File("yasplIGES.txt");
+		File f=new File("yaspl2.txt");
 		if(f.exists()){
 			//sorgente
 			FileInputStream in=new FileInputStream(f);
