@@ -1,3 +1,4 @@
+
 <project name="MyProject" default="compile" basedir=".">
 
 	  <property name="java"     location="src"       />

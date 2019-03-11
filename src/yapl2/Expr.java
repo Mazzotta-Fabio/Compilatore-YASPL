@@ -3,11 +3,11 @@ package yapl2;
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
 import cup.example.sym;
-import drawTree.TreeComponent;
 import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //collaudata
-public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSemanticheNodi,OttieniTipo{
+public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 	//Priorità
 	public static class Priority extends Expr {
 		private Expr e;
@@ -42,6 +42,13 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 		@Override
 		public String getType(){
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			e.controlFlowDati(t);
 		}
 	}
 	
@@ -111,6 +118,14 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 		public String getType() {
 			return type;
 		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			e1.controlFlowDati(t);
+			e2.controlFlowDati(t);			
+		}
 	}
 	
 	public static Binex makeExprArith(Expr e1, int op, Expr e2){
@@ -153,6 +168,13 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			e1.controlFlowDati(t);
 		}
 	}
 	
@@ -222,6 +244,14 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 		public String getType() {
 			return type;
 		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			/*do nothing*/
+			
+		}
 	}
 	
 	public static IntDoubleConst intconst(Integer i){
@@ -265,6 +295,13 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			t.aggiornaEspressione(i,"u");
 		}	
 	}
 	
@@ -300,11 +337,18 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 			public String getType() {
 				return type;
 			}
+			/**
+			 * manutenzione
+			 */
+			@Override
+			public void controlFlowDati(TracciaDati t) throws Exception {
+				/*do nothing*/
+			}
 		}
 		
-		public static StringConst makeStringConst(String s){
-			return new StringConst(s);
-		}
+	public static StringConst makeStringConst(String s){
+		return new StringConst(s);
+	}
 		
 		//nodo TYPE
 		public static class Type extends Expr {
@@ -339,6 +383,13 @@ public abstract class Expr implements sym,TreeComponent,ScriviCodice,AzioniSeman
 			@Override
 			public String getType() {
 				return type;
+			}
+			/**
+			 * manutenzione
+			 */
+			@Override
+			public void controlFlowDati(TracciaDati t) throws Exception {
+				/*do nothing*/
 			}
 		}
 		

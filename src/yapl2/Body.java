@@ -3,13 +3,11 @@ package yapl2;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import drawTree.TreeComponent;
-import esercitazione5_COMP.AzioniSemanticheNodi;
-import esercitazione5_COMP.Env;
-import esercitazione5_COMP.ScriviCodice;
+import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //controllata
-public abstract class Body implements TreeComponent,ScriviCodice,AzioniSemanticheNodi{
+public abstract class Body implements AzioniCompilatore,DrawControlFlowGraph{
 	//nodo body
 	public static class BodyOP extends Body{
 		private List<Var_decl> varD;
@@ -64,10 +62,42 @@ public abstract class Body implements TreeComponent,ScriviCodice,AzioniSemantich
 				stat.get(i).startScoping(e);
 			}
 		}
+		
+		/**
+		 * manutenzione
+		 */
+		
+		@Override
+		public void drawNode(XMLStreamWriter x,TracciaDati t) throws Exception {
+			for(int i=varD.size()-1;i>=0;i--){
+				Var_decl var=varD.get(i);
+				var.drawNode(x, t);
+			}
+			for(int i=stat.size()-1;i>=0;i--){
+				Stat stat1=stat.get(i);
+				stat1.drawNode(x, t);
+			}
+			x.writeStartElement("NODOFINALEFUNZIONE"+t.incrementaNodi());
+			for(int i=stat.size();i>=0;i--){
+				x.writeEndElement();
+			}
+		}
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			if(t.getPrec()!=null) {
+				for(int i=varD.size()-1;i>=0;i--){
+					Var_decl var=varD.get(i);
+					var.controlFlowDati(t);
+				}
+			}
+			for(int i=stat.size()-1;i>=0;i--){
+				Stat stat1=stat.get(i);
+				stat1.controlFlowDati(t);
+			}
+		}
 	}
 	
 	public static BodyOP bodyOP(List<Var_decl> varD,List<Stat> stat){
 		return new BodyOP(varD,stat);
 	}
-	
 }

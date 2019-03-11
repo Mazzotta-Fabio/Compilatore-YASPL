@@ -5,11 +5,11 @@ import java.io.*;
 import java.util.List;
 import yapl2.Expr.*;
 import javax.xml.stream.XMLStreamWriter;
-import drawTree.TreeComponent;
 import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //nodo def_decl
-public abstract class Def_decl implements TreeComponent,ScriviCodice,AzioniSemanticheNodi{
+public abstract class Def_decl implements AzioniCompilatore,DrawControlFlowGraph{
 	public static class ProcDeclOp extends Def_decl {
 		private Identifier attribute;
 		private List<Var_decl> listVar;
@@ -101,7 +101,41 @@ public abstract class Def_decl implements TreeComponent,ScriviCodice,AzioniSeman
 			else{
 				throw new IllegalArgumentException("Esite già una funzione con questo nome " + attribute);
 			}
-		}	
+		}
+		/**
+		 * manutenzione
+		 */
+		
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
+			x.writeStartElement("NODOFUNZIONEINIZIALE"+t.incrementaNodi());
+			x.writeAttribute("funzione", attribute.toString());
+			for(int i=listVar.size()-1;i>=0;i--) {
+				Var_decl var=listVar.get(i);
+				var.drawNode(x, t);
+			}
+			for(int i=parDecl.size()-1;i>=0;i--) {
+				Par_decl par=parDecl.get(i);
+				par.drawNode(x,t);
+			}
+			body.drawNode(x, t);
+			x.writeEndElement();
+		}
+		
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			if(t.getPrec()!=null) {
+				for(int i=listVar.size()-1;i>=0;i--){
+					Var_decl vard=listVar.get(i);
+					vard.controlFlowDati(t);
+				}
+			}
+			for(int i=parDecl.size()-1;i>=0;i--){
+				Par_decl par=parDecl.get(i);
+				par.controlFlowDati(t);
+			}
+			body.controlFlowDati(t);
+		}
 	}
 	
 	public static ProcDeclOp makeDef_decl(Identifier attribute,List<Var_decl> listVar,List<Par_decl> parDecl,Body body){

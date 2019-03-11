@@ -2,16 +2,14 @@ package yapl2;
 
 import java.util.*;
 import java.io.PrintWriter;
-
 import javax.xml.stream.XMLStreamWriter;
-
 import yapl2.Var_decl.*;
 import yapl2.Expr.*;
-import drawTree.TreeComponent;
 import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //collaudata
-public abstract class Par_decl implements TreeComponent,ScriviCodice,AzioniSemanticheNodi,OttieniTipo{
+public abstract class Par_decl implements AzioniCompilatore,OttieniTipo,DrawControlFlowGraph{
 	//nodo ParDecl
 	public static class ParDeclOP extends Par_decl{
 		private Type type;
@@ -46,7 +44,7 @@ public abstract class Par_decl implements TreeComponent,ScriviCodice,AzioniSeman
 				varOp.startScoping(e);//qui vengono inserite le variabili di output nello scope della funzione.
 				List<Identifier> list=varOp.getID();
 				if(list.size()>1){
-					throw new IllegalArgumentException("hai inserito più di un identifcatore all'interno della dichiarazione di output della funzione");
+					throw new IllegalArgumentException("hai inserito più di un identificatore all'interno della dichiarazione di output della funzione");
 				}
 				for(int i=list.size()-1;i>=0;i--){
 					e.addVariabile(type.toString(), list.get(i).toString());
@@ -56,6 +54,23 @@ public abstract class Par_decl implements TreeComponent,ScriviCodice,AzioniSeman
 		@Override
 		public String getType(){
 			return type.toString();
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
+			x.writeAttribute("valoreDiRitorno", varOp.toString());
+		}
+		
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			List<Identifier> list=varOp.getID();
+			for(int i=list.size()-1;i>=0;i--) {
+				if(t.getPrec()!=null){
+					t.aggiungiNuovaVariabile(list.get(i).toString(), "a");
+				}
+			}
 		}
 	}
 	

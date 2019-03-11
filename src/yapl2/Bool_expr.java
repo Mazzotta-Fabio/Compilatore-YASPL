@@ -3,11 +3,11 @@ package yapl2;
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
 import cup.example.sym;
-import drawTree.TreeComponent;
 import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //collaudata
-public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,AzioniSemanticheNodi,OttieniTipo{
+public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 	
 	//Priorità
 	public static class Priority2 extends Bool_expr{
@@ -43,6 +43,13 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			e.controlFlowDati(t);
 		}
 	}
 	public static Priority2 priority(Bool_expr e){
@@ -138,7 +145,7 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 				String t1=expr1.getType();
 				expr2.startScoping(e);
 				String t2=expr2.getType();
-				if(t1.equals(t2)){
+				if((t1.equals("bool"))&&(t2.equals("bool"))){
 					type="bool";
 				}
 				else{
@@ -149,6 +156,20 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			if((e1==null)&&(e2==null)) {
+				expr1.controlFlowDati(t);
+				expr2.controlFlowDati(t);
+			}
+			else {
+				e1.controlFlowDati(t);
+				e2.controlFlowDati(t);
+			}
 		}
 	}
 	
@@ -164,12 +185,23 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 	public static class NotUnex extends Bool_expr {
 		private Bool_expr e1;
 		private String type;
-		private NotUnex(Bool_expr e1){
+		private Expr expr;
+		public NotUnex(Bool_expr e1){
 			this.e1=e1;
+			this.type=null;
+			this.expr=null;
+		}
+		public NotUnex(Expr e1){
+			this.expr=e1;
 			this.type=null;
 		}
 		public String toString(){
-			return "not"+e1;
+			if(expr==null) {
+				return "not"+e1;
+			}
+			else {
+				return "not"+expr;
+			}
 		}
 		@Override
 		public void drawComponent(XMLStreamWriter x) throws Exception {
@@ -177,18 +209,35 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 			if(type!=null){
 				x.writeAttribute("TYPE", type);
 			}
-			e1.drawComponent(x);
+			if(expr==null) {
+				e1.drawComponent(x);
+			}
+			else {
+				expr.drawComponent(x);
+			}
 			x.writeEndElement();
 		}
 		@Override
 		public void scriviCodice(PrintWriter c) throws Exception {
 			c.write("!");
-			e1.scriviCodice(c);
+			if(expr==null) {
+				e1.scriviCodice(c);
+			}
+			else {
+				expr.scriviCodice(c);
+			}
 		}
 		@Override
 		public void startScoping(Env e) {
-			e1.startScoping(e);
-			String t=e1.getType();
+			String t;
+			if(expr==null) {
+				e1.startScoping(e);
+				t=e1.getType();
+			}
+			else {
+				expr.startScoping(e);
+				t=expr.getType();
+			}
 			if(t.equals("bool")){
 				type="bool";
 			}
@@ -200,11 +249,25 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		public String getType() {
 			return type;
 		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			if(expr==null) {
+				e1.controlFlowDati(t);
+			}
+			else {
+				expr.controlFlowDati(t);
+			}
+		}
 	}
 	public static NotUnex unop(Bool_expr e){
 		return new NotUnex(e);
 	}
-	
+	public static NotUnex unop(Expr e){
+		return new NotUnex(e);
+	}
 	//nodo costanti booleani
 	public static class BoolConst extends Bool_expr {
 		private boolean i;
@@ -233,8 +296,8 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public void scriviCodice(PrintWriter c) throws Exception {
 			String frase="";
-			if(i){frase="true";}
-			if(!i){frase="false";}
+			if(i){frase="1";}
+			if(!i){frase="0";}
 			c.write(frase);
 		}
 		@Override
@@ -244,6 +307,13 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			/*do nothing*/
 		}
 	}
 	
@@ -285,6 +355,14 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			t.aggiornaEspressione(i, "u");
+			
 		}
 	}
 	
@@ -343,24 +421,31 @@ public abstract class Bool_expr implements sym,TreeComponent,ScriviCodice,Azioni
 		@Override
 		public void startScoping(Env e) {
 			e1.startScoping(e);
-			String t=e1.getType();
 			e2.startScoping(e);
+			String t=e1.getType();
 			String t2=e2.getType();
 			if(t.equals(t2)){
 				type="bool";
 			}
 			else{
 				throw new IllegalArgumentException("Type Mismatch in Relop");
-			}
+			}	
 		}
 		@Override
 		public String getType() {
 			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			e1.controlFlowDati(t);
+			e2.controlFlowDati(t);
 		}
 	}
 	
 	public static RelOP relop(Expr e1, int op, Expr e2){
 		return new RelOP(e1,op,e2);
 	}
-	
 }

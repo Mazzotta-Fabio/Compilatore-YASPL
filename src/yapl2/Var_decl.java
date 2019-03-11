@@ -4,11 +4,11 @@ import java.io.PrintWriter;
 import java.util.*;
 import javax.xml.stream.XMLStreamWriter;
 import yapl2.Expr.*;
-import drawTree.TreeComponent;
 import esercitazione5_COMP.*;
+import toolManutenzione.*;
 
 //nodo var_decl
-public abstract class Var_decl implements TreeComponent,ScriviCodice,AzioniSemanticheNodi{
+public abstract class Var_decl implements AzioniCompilatore,DrawControlFlowGraph{
 
 	public static class VarDeclOP extends Var_decl {
 		private Type type;
@@ -63,6 +63,18 @@ public abstract class Var_decl implements TreeComponent,ScriviCodice,AzioniSeman
 				}
 			}
 		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
+			//x.writeStartElement("NODOINIZIALE"+idNodo);
+			var.drawNode(x,t);
+		}
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			var.controlFlowDati(t);
+		}
 	}
 	
 	public static VarDeclOP getVarDeclOP(Type type,VarOp ops){
@@ -115,7 +127,29 @@ public abstract class Var_decl implements TreeComponent,ScriviCodice,AzioniSeman
 				}
 			}
 		}
+		
+		/**
+		 * parte manutenzione
+		 */
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
+			for(int i=id.size()-1;i>=0;i--) {
+				x.writeAttribute("var"+i, id.get(i).toString());
+			}
+		}
+		@Override
+		public void controlFlowDati(TracciaDati t) throws Exception {
+			for(int i=id.size()-1;i>=0;i--) {
+				if((t.getPrec()!=null)&&(t.getTabella().size()<=id.size())){
+					t.aggiungiNuovaVariabile(id.get(i).toString(),"d");
+				}
+				else {
+					t.aggiungiNuovaVariabile(id.get(i).toString(),"a");
+				}
+			}
+		}
 	}
+	
 	public static VarOp makeVarOP(){
 		return new VarOp();
 	}

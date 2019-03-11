@@ -74,7 +74,17 @@ public class Env {
 			return false;
 		}
 		else{
-			return true;
+			if(prec==null){
+				return true;
+			}
+			else {
+				if(prec.table.containsValue(s)) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
 		}
 	}
 	/**
@@ -89,6 +99,9 @@ public class Env {
 		if(function==null){
 			numArgomenti.add(this.function+contaArg);
 			contaArg=0;
+			if(prec!=null) {
+				prec.numArgomenti.add(this.function+contaArg);
+			}
 		}
 		this.function=function;
 	}
@@ -97,6 +110,13 @@ public class Env {
 		for(String arg:numArgomenti){
 			if(arg.equals(s)){
 				return true;
+			}
+		}
+		if(prec!=null) {
+			for(String arg2:prec.numArgomenti){
+				if(arg2.equals(s)){
+					return true;
+				}
 			}
 		}
 		return false;

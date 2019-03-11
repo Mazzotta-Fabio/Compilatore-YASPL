@@ -1,9 +1,6 @@
 package cup.example;
 
 import java.util.*;
-import java_cup.runtime.*;
-import cup.example.*;
-import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 import yapl2.*;
 
 /*Terminal*/
@@ -61,8 +58,8 @@ Type1 ::= INT:intero{:RESULT=Expr.makeType(intero);:}
        | BOOL:booleano{:RESULT=Expr.makeType(booleano);:}
        | DOUBLE:doubles{:RESULT=Expr.makeType(doubles);:};
 //ok
-Vars ::= NAME:id COMMA Vars:refV {: Expr.Identifier c=Expr.ident(id);  refV.addIdentifier(c); RESULT=refV;:}
-       | NAME:id2 {: RESULT=Var_decl.makeVarOP(); Expr.Identifier c=Expr.ident(id2); RESULT.addIdentifier(c);:};
+Vars ::= NAME:id COMMA Vars:refV {: Expr.Identifier c=Expr.ident(id);  refV.addIdentifier(c); RESULT=refV; :}
+       | NAME:id2 {: RESULT=Var_decl.makeVarOP(); Expr.Identifier c=Expr.ident(id2); RESULT.addIdentifier(c); :};
 //ok
 Types ::= Type1:refType1 COMMA Types:refTypes1 {: RESULT=refTypes1; refTypes1.add(refType1); :}
         | Type1:refType2 {: RESULT=new ArrayList<Expr.Type>(); RESULT.add(refType2); :};
@@ -113,8 +110,9 @@ Expr1 ::= INT_CONST:i {:RESULT=Expr.intconst(i);:}
        | DOUBLE_CONST:d {:RESULT=Expr.doubleconst(d);:}
        | Expr1:refE_1 Arith_op:refAr_op Expr1:refE_2 {: RESULT=Expr.makeExprArith(refE_1,refAr_op,refE_2); :}
        | NAME:idE {: RESULT=Expr.ident(idE); :}
-       | UMINUS Expr1:refE_3 {:RESULT=Expr.unop(refE_3);:}
-       | LPAR Expr1:refE_4 RPAR {: RESULT=Expr.priority(refE_4);:} ;
+       | MINUS Expr1:refE_3 {:RESULT=Expr.unop(refE_3);:}
+       %prec UMINUS
+       | LPAR Expr1:refE_4 RPAR {: RESULT=Expr.priority(refE_4);:};
 
 //OK       
 Arith_op ::= PLUS:plus {:RESULT=plus;:}
@@ -126,8 +124,9 @@ Bool_expr1 ::= TRUE:val_true {: RESULT=Bool_expr.boolConst(val_true);:}
             | FALSE: false_true{: RESULT=Bool_expr.boolConst(false_true); :}
             | Bool_expr1:refBool1 Bool_op:ref_BoolOP Bool_expr1:refBool2 {: RESULT=Bool_expr.binop(refBool1,ref_BoolOP,refBool2); :}
             | NOT Bool_expr1:refBool3 {:RESULT=Bool_expr.unop(refBool3); :}
+            | NOT Expr1:refEx {: RESULT=Bool_expr.unop(refEx); :}
             | Expr1:refE_b1 Rel_op:refE_RELOP Expr1:refE_b2 {:RESULT=Bool_expr.relop(refE_b1,refE_RELOP,refE_b2);:}
-            | LPAR Bool_expr1:refBool4 RPAR {: Bool_expr.priority(refBool4);:} 
+            | LPAR Bool_expr1:refBool4 RPAR {: RESULT=Bool_expr.priority(refBool4); :}
             | Expr1:expr1 Bool_op:opBool Expr1:expr2 {: RESULT=Bool_expr.binExpr(expr1,opBool,expr2); :};
 
 //OK            
@@ -138,4 +137,4 @@ Rel_op ::=  GT:gt {:RESULT=gt;:}
           | GE:ge {:RESULT=ge;:}
           | LT:lt {:RESULT=lt;:}
           | LE:le {:RESULT=le;:}
-          | EQ:eq {:RESULT=eq;:};
+          | EQ:eq {:RESULT=eq;:} ;
