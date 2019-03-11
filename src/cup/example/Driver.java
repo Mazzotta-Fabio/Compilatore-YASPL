@@ -14,7 +14,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/yasplIGES.txt");
+			File f=new File("sorgentiYASPL2/provaTracciatura.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori
@@ -98,7 +98,7 @@ public class Driver {
 					tracciatura.eseguiReachingDefinition(stampa,variabile,espressione);
 				}
 				ArrayList<TracciaDati> tracciatureFunzioni=tracciatura.getTracciatureFunzioni();
-				if(tracciatureFunzioni!=null) {
+				if(tracciatureFunzioni.size()>0){
 					System.out.println("\nAnalisi del flusso effettuate dentro le funzioni:\n");
 					for(TracciaDati t:tracciatureFunzioni) {
 						Hashtable<String,String> tabellaFunzione=t.getTabella(); 

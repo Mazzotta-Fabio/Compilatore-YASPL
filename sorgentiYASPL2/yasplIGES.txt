@@ -1,39 +1,13 @@
 head
 
 	int a,b,x,y;
-	bool m;
 	
-	def calcolo(int a;bool u;):int ml;{
-		int hv;
-		ml=23;
-		"GHGHJGJ"->;
-		 //calcolaInt(a,m:y);
-	};
-	
-	def calcolaInt(int symbol;int tipo;):int resultInt;{
-		bool vb;
-		a=2;
-		//m=78;
-		//
-		calcolo(symbol,vb:resultInt);
-		vb=true;
-    	resultInt=0;
-    	while(tipo==1)
-    	do{
-    		tipo=1;
-    	};
-    	vb=true;
-    };
     
 start
-   // calcolo(a,m:y);
-    
 	x <- int;
-	//y <- int;
-	//u=100;
-	//a=x;
-	//a=y;
-	/*
+	y <- int;
+	a=x;
+	a=y;
 	while(not(a==b))
 	do{
 		if(a>b)then{
@@ -41,9 +15,6 @@ start
 		}
 		else{
 			b=b-a;
-			
 		};
 	};
-	 //calcolaInt(a,b:y);
-	"%d",a ->;
-	*/
+	"Il massimo comune divisore è",a ->;

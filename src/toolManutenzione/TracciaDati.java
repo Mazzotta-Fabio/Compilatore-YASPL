@@ -88,6 +88,9 @@ public class TracciaDati {
 				if(lastC=='u'){
 					return false;
 				}
+				if(lastC=='a') {
+					return false;
+				}
 				lastC=valori[i];
 				break;
 			}

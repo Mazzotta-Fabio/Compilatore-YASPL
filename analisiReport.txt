@@ -1,37 +1,19 @@
-La variabile m :
-        Al nodo 1 la variabile viene dichiarata.
 La variabile x :
         Al nodo 1 la variabile viene dichiarata.
-        Al nodo 11 alla variabile viene fatta una definizione 
-La variabile b :
-        Al nodo 1 la variabile viene dichiarata.
-La variabile a :
+        Al nodo 2 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di x al nodo 3
+        , raggiunge gli usi di x al nodo 6
+        , raggiunge gli usi di x al nodo 11
+        Al nodo 12 alla variabile viene fatta una definizione 
+La variabile n :
         Al nodo 1 la variabile viene dichiarata.
         Al nodo 4 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di n al nodo 7
+        Al nodo 8 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di n al nodo 9
 La variabile y :
         Al nodo 1 la variabile viene dichiarata.
-La variabile hv :
-        Al nodo 1 la variabile viene dichiarata.
-La variabile a :
-        Al nodo 1 alla variabile viene fatta una definizione 
-La variabile u :
-        Al nodo 1 alla variabile viene fatta una definizione 
-La variabile ml :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 2 alla variabile viene fatta una definizione 
-La variabile tipo :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di tipo al nodo 6
-        Al nodo 7 alla variabile viene fatta una definizione 
-La variabile vb :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 3 la variabile vb viene usata prima di essere definita.
-        Al nodo 4 alla variabile viene fatta una definizione 
-        Al nodo 8 alla variabile viene fatta una definizione 
-La variabile symbol :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di symbol al nodo 3
-La variabile resultInt :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 3 alla variabile viene fatta una definizione 
         Al nodo 5 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di y al nodo 9
+        Al nodo 10 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di y al nodo 13
