@@ -1,13 +1,13 @@
 head
-
 	int fine;
 	int dato,op,dato1,dato2;
 	int result1;
 	double result2;
 	double d1,d2;
 	int y;
-	bool l,o;
-	int b,n;
+	
+
+	
 	//prima funzione
 	
 	def menu(int op;):
@@ -81,11 +81,10 @@ head
 	};
 start
     fine=0;
-    //fine=5+(23+(2*9));
     while(fine==0)
     do{
        menu(y:op);
-       if(op==0)then{
+       if(dato==0)then{
           calcolaInt(op,dato:result1);
        }
        else{
@@ -93,8 +92,7 @@ start
        };
        "Vuoi continuare? (digita 0 per continuare o 1 per uscire)"->;
        fine <- int;
-       br=true;
-       br=l && o;
-       fine=-1;
+      
+      
     };
    
