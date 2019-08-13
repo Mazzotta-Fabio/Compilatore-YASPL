@@ -121,7 +121,20 @@ public class Env {
 		}
 		return false;
 	}
-	
+	public boolean controllaNomeFunzione(String nome) {
+		if(table.containsKey(nome)) {
+			return true;
+		}
+		if(prec==null) {
+			return false;
+		}
+		else {
+			if(prec.table.containsValue(nome)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public Env getEnv(){
 		return prec;
 	}

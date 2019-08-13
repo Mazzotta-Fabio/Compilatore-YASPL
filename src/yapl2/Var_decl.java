@@ -68,7 +68,6 @@ public abstract class Var_decl implements AzioniCompilatore,DrawControlFlowGraph
 		 */
 		@Override
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			//x.writeStartElement("NODOINIZIALE"+idNodo);
 			var.drawNode(x,t);
 		}
 		@Override
@@ -124,6 +123,9 @@ public abstract class Var_decl implements AzioniCompilatore,DrawControlFlowGraph
 			for(int i=id.size()-1;i>=0;i--){
 				if(e.getElementLocal(id.get(i).toString())){
 					throw new IllegalArgumentException("dichiarazione multipla variabile "+ id.get(i).toString());
+				}
+				if(e.controllaNomeFunzione(id.get(i).toString())) {
+					throw new IllegalArgumentException("Esiste una già una funzione con questo nome data alla variabile: "+ id.get(i).toString());
 				}
 			}
 		}

@@ -4,7 +4,7 @@ int fine,op;
 
 int ris1,fib,molt,pot,d,result;
 
-def somma(int x;int y;):int result;
+def somma(int x;int y;):int somma;
 {
    result=x+y;
 };

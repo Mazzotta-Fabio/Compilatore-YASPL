@@ -14,7 +14,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/input.txt");
+			File f=new File("sorgentiYASPL2/provatracciatura.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori

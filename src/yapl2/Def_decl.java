@@ -77,6 +77,10 @@ public abstract class Def_decl implements AzioniCompilatore,DrawControlFlowGraph
 		}
 		@Override
 		public void startScoping(Env e) {
+			if(e.controllaNomeFunzione(attribute.toString())) {
+				throw new IllegalArgumentException("Esiste una variabile dichiarata con questo nome: "+attribute.toString());
+				
+			}
 			if(e.existFunction(attribute.toString())){
 				e.addVariabile(attribute.toString(),"def"+attribute.toString());
 				e.setFunction(attribute.toString());

@@ -1,95 +1,19 @@
-La variabile d2 :
+La variabile x :
         Al nodo 1 la variabile viene dichiarata.
+        Al nodo 2 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di x al nodo 3
+        , raggiunge gli usi di x al nodo 6
+        , raggiunge gli usi di x al nodo 11
         Al nodo 12 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di d2 al nodo 34
-        , raggiunge gli usi di d2 al nodo 37
-        , raggiunge gli usi di d2 al nodo 40
-        , raggiunge gli usi di d2 al nodo 43
-La variabile d1 :
+La variabile n :
         Al nodo 1 la variabile viene dichiarata.
-        Al nodo 10 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di d1 al nodo 34
-        , raggiunge gli usi di d1 al nodo 37
-        , raggiunge gli usi di d1 al nodo 40
-        , raggiunge gli usi di d1 al nodo 43
-La variabile result2 :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 52 alla variabile viene fatta una definizione 
-La variabile result1 :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 51 alla variabile viene fatta una definizione 
-La variabile dato2 :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 16 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di dato2 al nodo 19
-        , raggiunge gli usi di dato2 al nodo 22
-        , raggiunge gli usi di dato2 al nodo 25
-        , raggiunge gli usi di dato2 al nodo 28
-La variabile dato1 :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 14 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di dato1 al nodo 19
-        , raggiunge gli usi di dato1 al nodo 22
-        , raggiunge gli usi di dato1 al nodo 25
-        , raggiunge gli usi di dato1 al nodo 28
-La variabile op :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 3 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di op al nodo 4
-        Al nodo 49 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di op al nodo 51
-        , raggiunge gli usi di op al nodo 52
-La variabile fine :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 47 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di fine al nodo 48
-        Al nodo 54 alla variabile viene fatta una definizione 
+        Al nodo 4 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di n al nodo 7
+        Al nodo 8 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di n al nodo 9
 La variabile y :
         Al nodo 1 la variabile viene dichiarata.
-        Al nodo 49 la variabile y viene usata prima di essere definita.
-La variabile dato :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 7 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di dato al nodo 8
-        , raggiunge gli usi di dato al nodo 50
-        , raggiunge gli usi di dato al nodo 51
-        , raggiunge gli usi di dato al nodo 52
-La variabile tipoOP :
-        Al nodo 1 la variabile viene dichiarata.
         Al nodo 5 alla variabile viene fatta una definizione 
-La variabile op :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        Al nodo 3 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di op al nodo 4
-La variabile tipo :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di tipo al nodo 2
-La variabile symbol :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di symbol al nodo 3
-        , raggiunge gli usi di symbol al nodo 6
-        , raggiunge gli usi di symbol al nodo 9
-        , raggiunge gli usi di symbol al nodo 12
-La variabile resultInt :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 5 alla variabile viene fatta una definizione 
-        Al nodo 8 alla variabile viene fatta una definizione 
-        Al nodo 11 alla variabile viene fatta una definizione 
-        Al nodo 14 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di resultInt al nodo 15
-La variabile tipo :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di tipo al nodo 2
-La variabile symbol :
-        Al nodo 1 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di symbol al nodo 3
-        , raggiunge gli usi di symbol al nodo 6
-        , raggiunge gli usi di symbol al nodo 9
-        , raggiunge gli usi di symbol al nodo 12
-La variabile resultDouble :
-        Al nodo 1 la variabile viene dichiarata.
-        Al nodo 5 alla variabile viene fatta una definizione 
-        Al nodo 8 alla variabile viene fatta una definizione 
-        Al nodo 11 alla variabile viene fatta una definizione 
-        Al nodo 14 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di resultDouble al nodo 15
+        , raggiunge gli usi di y al nodo 9
+        Al nodo 10 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di y al nodo 13
