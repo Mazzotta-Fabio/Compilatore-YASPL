@@ -2,8 +2,9 @@ package yapl2;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
+import analizzatoreSemantico.Env;
+import analizzatoreSemantico.OttieniTipo;
 import cup.example.sym;
-import esercitazione5_COMP.*;
 import toolManutenzione.*;
 
 //collaudata

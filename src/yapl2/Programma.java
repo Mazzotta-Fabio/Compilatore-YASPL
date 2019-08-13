@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import esercitazione5_COMP.*;
+import analizzatoreSemantico.Env;
 import toolManutenzione.*;
 
 //collaudata

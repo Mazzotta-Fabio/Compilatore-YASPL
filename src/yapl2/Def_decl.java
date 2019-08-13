@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.List;
 import yapl2.Expr.*;
 import javax.xml.stream.XMLStreamWriter;
-import esercitazione5_COMP.*;
+import analizzatoreSemantico.Env;
 import toolManutenzione.*;
 
 //nodo def_decl

@@ -1,4 +1,4 @@
-package esercitazione5_COMP;
+package analizzatoreSemantico;
 
 public interface OttieniTipo {
 	public String getType();

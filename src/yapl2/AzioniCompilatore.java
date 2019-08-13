@@ -1,8 +1,9 @@
-package esercitazione5_COMP;
+package yapl2;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
 
+import analizzatoreSemantico.Env;
 import toolManutenzione.TracciaDati;
 
 public interface AzioniCompilatore {

@@ -1,9 +1,10 @@
 package yapl2;
 
 import java.io.PrintWriter;
+
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import esercitazione5_COMP.*;
+import analizzatoreSemantico.Env;
 import toolManutenzione.*;
 
 //controllata

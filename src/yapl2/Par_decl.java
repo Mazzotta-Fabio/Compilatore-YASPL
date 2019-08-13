@@ -3,9 +3,10 @@ package yapl2;
 import java.util.*;
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
+import analizzatoreSemantico.Env;
+import analizzatoreSemantico.OttieniTipo;
 import yapl2.Var_decl.*;
 import yapl2.Expr.*;
-import esercitazione5_COMP.*;
 import toolManutenzione.*;
 
 //collaudata

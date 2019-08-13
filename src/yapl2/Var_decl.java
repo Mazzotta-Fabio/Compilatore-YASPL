@@ -3,8 +3,8 @@ package yapl2;
 import java.io.PrintWriter;
 import java.util.*;
 import javax.xml.stream.XMLStreamWriter;
+import analizzatoreSemantico.Env;
 import yapl2.Expr.*;
-import esercitazione5_COMP.*;
 import toolManutenzione.*;
 
 //nodo var_decl

@@ -3,7 +3,7 @@ package yapl2;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import esercitazione5_COMP.*;
+import analizzatoreSemantico.Env;
 import toolManutenzione.*;
 import yapl2.Expr.Identifier;
 import yapl2.Expr.Type;
