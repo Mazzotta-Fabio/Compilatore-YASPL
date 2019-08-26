@@ -45,7 +45,7 @@ public class Driver {
 				
 				//stampiamo l'albero sintattico su xml
 				XMLOutputFactory outFactory=XMLOutputFactory.newInstance();
-				XMLStreamWriter sw = outFactory.createXMLStreamWriter(new FileOutputStream("fileXML/mioFile.xml"),"utf-8");
+				XMLStreamWriter sw = outFactory.createXMLStreamWriter(new FileOutputStream("fileXML/AST.xml"),"utf-8");
 				sw.writeStartDocument("utf-8","1.0");
 				Programma prog=(Programma)parse_tree.value;
 				prog.drawComponent(sw);
