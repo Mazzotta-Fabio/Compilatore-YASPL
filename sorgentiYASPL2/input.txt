@@ -5,9 +5,7 @@ head
 	double result2;
 	double d1,d2;
 	int y;
-	
 
-	
 	//prima funzione
 	
 	def menu(int op;):

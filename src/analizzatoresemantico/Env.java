@@ -1,4 +1,4 @@
-package analizzatoreSemantico;
+package analizzatoresemantico;
 
 import java.util.*;
 /*

@@ -5,11 +5,12 @@ import java.io.*;
 import java.util.List;
 import yapl2.Expr.*;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import toolManutenzione.*;
+
+import analizzatoresemantico.Env;
+import toolmanutenzione.*;
 
 //nodo def_decl
-public abstract class Def_decl implements AzioniCompilatore,DrawControlFlowGraph{
+public abstract class Def_decl implements AzioniCompilatore{
 	public static class ProcDeclOp extends Def_decl {
 		private Identifier attribute;
 		private List<Var_decl> listVar;

@@ -1,21 +1,20 @@
 package cup.example;
 
 import java.io.*;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java_cup.runtime.*;
-import toolManutenzione.TracciaDati;
+import toolmanutenzione.TracciaDati;
 import javax.xml.stream.*;
-import analizzatoreSemantico.Env;
+import analizzatoresemantico.Env;
 import yapl2.Programma;
 
 public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/provatracciatura.txt");
+			File f=new File("sorgentiYASPL2/yasplIGES.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori

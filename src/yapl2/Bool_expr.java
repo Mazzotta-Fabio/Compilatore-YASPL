@@ -2,10 +2,11 @@ package yapl2;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import analizzatoreSemantico.OttieniTipo;
+
+import analizzatoresemantico.Env;
+import analizzatoresemantico.OttieniTipo;
 import cup.example.sym;
-import toolManutenzione.*;
+import toolmanutenzione.*;
 
 //collaudata
 public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
@@ -51,6 +52,10 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			e.controlFlowDati(t);
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			e.drawNode(x, c);
 		}
 	}
 	public static Priority2 priority(Bool_expr e){
@@ -172,6 +177,17 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 				e2.controlFlowDati(t);
 			}
 		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			if((e1==null)&&(e2==null)) {
+				expr1.drawNode(x, c);
+				expr2.drawNode(x, c);
+			}
+			else {
+				e1.drawNode(x, c);
+				e2.drawNode(x, c);
+			}
+		}
 	}
 	
 	public static BoolOP binop(Bool_expr e1, int op, Bool_expr e2){
@@ -262,6 +278,15 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 				expr.controlFlowDati(t);
 			}
 		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			if(expr==null) {
+				e1.drawNode(x, c);
+			}
+			else {
+				expr.drawNode(x, c);
+			}
+		}
 	}
 	public static NotUnex unop(Bool_expr e){
 		return new NotUnex(e);
@@ -316,6 +341,10 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			/*do nothing*/
 		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			/*do nothing*/			
+		}
 	}
 	
 	public static BoolConst boolConst(boolean c){
@@ -363,6 +392,11 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			t.aggiornaEspressione(i, "u");
+			
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			x.writeAttribute("var", i);
 			
 		}
 	}
@@ -443,6 +477,11 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			e1.controlFlowDati(t);
 			e2.controlFlowDati(t);
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			e1.drawNode(x, c);
+			e2.drawNode(x, c);
 		}
 	}
 	

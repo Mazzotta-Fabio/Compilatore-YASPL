@@ -1,19 +1,25 @@
 La variabile x :
         Al nodo 1 la variabile viene dichiarata.
         Al nodo 2 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di x al nodo 3
-        , raggiunge gli usi di x al nodo 6
-        , raggiunge gli usi di x al nodo 11
-        Al nodo 12 alla variabile viene fatta una definizione 
-La variabile n :
+        , raggiunge gli usi di x al nodo 4
+La variabile b :
         Al nodo 1 la variabile viene dichiarata.
-        Al nodo 4 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di n al nodo 7
-        Al nodo 8 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di n al nodo 9
-La variabile y :
+        Al nodo 8 la variabile b viene usata prima di essere definita.
+        Al nodo 9 la variabile b viene usata prima di essere definita.
+        Al nodo 10 la variabile b viene usata prima di essere definita.
+        Al nodo 12 la variabile b viene usata prima di essere definita.
+        Al nodo 13 alla variabile viene fatta una definizione 
+La variabile a :
         Al nodo 1 la variabile viene dichiarata.
         Al nodo 5 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di y al nodo 9
-        Al nodo 10 alla variabile viene fatta una definizione 
-        , raggiunge gli usi di y al nodo 13
+        Al nodo 7 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di a al nodo 8
+        , raggiunge gli usi di a al nodo 9
+        , raggiunge gli usi di a al nodo 10
+        Al nodo 11 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di a al nodo 12
+        , raggiunge gli usi di a al nodo 14
+La variabile y :
+        Al nodo 1 la variabile viene dichiarata.
+        Al nodo 3 alla variabile viene fatta una definizione 
+        , raggiunge gli usi di y al nodo 6

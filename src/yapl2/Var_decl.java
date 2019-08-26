@@ -3,12 +3,13 @@ package yapl2;
 import java.io.PrintWriter;
 import java.util.*;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
+
+import analizzatoresemantico.Env;
+import toolmanutenzione.*;
 import yapl2.Expr.*;
-import toolManutenzione.*;
 
 //nodo var_decl
-public abstract class Var_decl implements AzioniCompilatore,DrawControlFlowGraph{
+public abstract class Var_decl implements AzioniCompilatore{
 
 	public static class VarDeclOP extends Var_decl {
 		private Type type;

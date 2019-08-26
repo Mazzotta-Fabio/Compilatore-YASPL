@@ -3,14 +3,15 @@ package yapl2;
 import java.util.*;
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import analizzatoreSemantico.OttieniTipo;
+
+import analizzatoresemantico.Env;
+import analizzatoresemantico.OttieniTipo;
+import toolmanutenzione.*;
 import yapl2.Var_decl.*;
 import yapl2.Expr.*;
-import toolManutenzione.*;
 
 //collaudata
-public abstract class Par_decl implements AzioniCompilatore,OttieniTipo,DrawControlFlowGraph{
+public abstract class Par_decl implements AzioniCompilatore,OttieniTipo{
 	//nodo ParDecl
 	public static class ParDeclOP extends Par_decl{
 		private Type type;

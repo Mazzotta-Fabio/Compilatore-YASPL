@@ -4,11 +4,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import toolManutenzione.*;
+
+import analizzatoresemantico.Env;
+import toolmanutenzione.*;
 
 //collaudata
-public abstract class Programma implements AzioniCompilatore,DrawControlFlowGraph{
+public abstract class Programma implements AzioniCompilatore{
 	//nodo ProgramOP
 	public static class ProgramOp extends Programma{
 		private Decls vars;

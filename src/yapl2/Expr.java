@@ -2,10 +2,11 @@ package yapl2;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import analizzatoreSemantico.OttieniTipo;
+
+import analizzatoresemantico.Env;
+import analizzatoresemantico.OttieniTipo;
 import cup.example.sym;
-import toolManutenzione.*;
+import toolmanutenzione.*;
 
 //collaudata
 public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
@@ -50,6 +51,10 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			e.controlFlowDati(t);
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			e.drawNode(x, c);
 		}
 	}
 	
@@ -127,6 +132,11 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 			e1.controlFlowDati(t);
 			e2.controlFlowDati(t);			
 		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			e1.drawNode(x, c);
+			e2.drawNode(x, c);
+		}
 	}
 	
 	public static Binex makeExprArith(Expr e1, int op, Expr e2){
@@ -176,6 +186,10 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			e1.controlFlowDati(t);
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			e1.drawNode(x, c);
 		}
 	}
 	
@@ -253,6 +267,11 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 			/*do nothing*/
 			
 		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			//do nothing
+			
+		}
 	}
 	
 	public static IntDoubleConst intconst(Integer i){
@@ -303,7 +322,11 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void controlFlowDati(TracciaDati t) throws Exception {
 			t.aggiornaEspressione(i,"u");
-		}	
+		}
+		@Override
+		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+			x.writeAttribute("varU",i);
+		}
 	}
 	
 	public static Identifier ident(String s){
@@ -344,6 +367,11 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 			@Override
 			public void controlFlowDati(TracciaDati t) throws Exception {
 				/*do nothing*/
+			}
+			@Override
+			public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+				//do nothing
+				
 			}
 		}
 		
@@ -391,6 +419,11 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 			@Override
 			public void controlFlowDati(TracciaDati t) throws Exception {
 				/*do nothing*/
+			}
+			@Override
+			public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
+				//do nothing
+				
 			}
 		}
 		

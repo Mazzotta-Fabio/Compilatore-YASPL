@@ -3,13 +3,14 @@ package yapl2;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import toolManutenzione.*;
+
+import analizzatoresemantico.Env;
+import toolmanutenzione.*;
 import yapl2.Expr.Identifier;
 import yapl2.Expr.Type;
 
 //collaudata
-public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
+public abstract class Stat implements AzioniCompilatore{
 
 	// nodo readOp
 	public static class ReadOP extends Stat {
@@ -105,6 +106,9 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO" + t.incrementaNodi());
 			x.writeAttribute("statement", "READ");
+			for (int i = id.size() - 1; i >= 0; i--) {
+				x.writeAttribute("varD", id.get(i).toString());
+			}
 		}
 
 		@Override
@@ -182,6 +186,9 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO" + t.incrementaNodi());
 			x.writeAttribute("statement", "WRITE");
+			for (int i = expr.size() - 1; i >= 0; i--) {
+				expr.get(i).drawNode(x, t);
+			}
 		}
 
 		@Override
@@ -293,6 +300,13 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO"+t.incrementaNodi());
 			x.writeAttribute("statement", "ASSIGN");
+			x.writeAttribute("varD",id);
+			if (expr != null) {
+				expr.drawNode(x, t);
+			} 
+			else {
+				bool_expr.drawNode(x, t);
+			}
 		}
 
 		@Override
@@ -432,6 +446,12 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 			x.writeStartElement("NODO"+t.incrementaNodi());
 			x.writeAttribute("statement","CALL TO FUNCTION");
 			x.writeAttribute("nomeFunzione",id);
+			for (int i = expr.size() - 1; i >= 0; i--) {
+				expr.get(i).drawNode(x, t);
+			}
+			for (int i = listId.size() - 1; i >= 0; i--) {
+				listId.get(i).drawNode(x, t);
+			}
 		}
 
 		@Override
@@ -580,6 +600,7 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO"+t.incrementaNodi());
 			x.writeAttribute("statement", "WHILE");
+			cond.drawNode(x, t);
 			stat.drawNode(x, t);
 		}
 
@@ -651,6 +672,7 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO"+t.incrementaNodi());
 			x.writeAttribute("statement", "IF");
+			expr.drawNode(x, t);
 			stat.drawNode(x,t);
 		}
 
@@ -727,6 +749,7 @@ public abstract class Stat implements AzioniCompilatore, DrawControlFlowGraph{
 		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
 			x.writeStartElement("NODO"+t.incrementaNodi());
 			x.writeAttribute("statement", "IFELSE");
+			expr.drawNode(x, t);
 			stat.drawNode(x, t);
 			stat2.drawNode(x, t);
 		}

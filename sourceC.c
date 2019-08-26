@@ -1,24 +1,28 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-int x,y,n;
+int a,b,x,y;
 int main(void){
 	scanf("%d",&x);
 
-	if(x>0)	{
-	n=1;
-	y=1;
-	while(x>1)	{
-	n=n+2;
-	y=y+n;
-	x=x-1;
+	scanf("%d",&y);
+
+	a=x;
+	a=y;
+	while(!(a==b))	{
+	if(a>b)	{
+	a=a-b;
+	}
+
+	else	{
+	b=b-a;
 	}
 
 
-	printf("RISULTATO %d\n",y);
 	}
 
 
+	printf("Il massimo comune divisore è\n",a);
 	  system("pause");
 	return 0;
 }

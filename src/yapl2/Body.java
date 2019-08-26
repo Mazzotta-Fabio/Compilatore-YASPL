@@ -4,11 +4,12 @@ import java.io.PrintWriter;
 
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-import analizzatoreSemantico.Env;
-import toolManutenzione.*;
+
+import analizzatoresemantico.Env;
+import toolmanutenzione.*;
 
 //controllata
-public abstract class Body implements AzioniCompilatore,DrawControlFlowGraph{
+public abstract class Body implements AzioniCompilatore{
 	//nodo body
 	public static class BodyOP extends Body{
 		private List<Var_decl> varD;
