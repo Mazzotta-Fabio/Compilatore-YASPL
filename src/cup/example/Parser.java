@@ -6,7 +6,6 @@
 package cup.example;
 
 import java.util.*;
-
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import yaspl2.*;
 import java_cup.runtime.XMLElement;
