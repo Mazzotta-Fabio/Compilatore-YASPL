@@ -1,13 +1,14 @@
-package yapl2;
+package yaspl2;
 
 //collaudata
 import java.io.*;
 import java.util.List;
-import yapl2.Expr.*;
+
 import javax.xml.stream.XMLStreamWriter;
 
 import analizzatoresemantico.Env;
 import toolmanutenzione.*;
+import yaspl2.Expr.*;
 
 //nodo def_decl
 public abstract class Def_decl implements AzioniCompilatore{

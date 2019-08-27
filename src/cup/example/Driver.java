@@ -6,9 +6,10 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java_cup.runtime.*;
 import toolmanutenzione.TracciaDati;
+import yaspl2.Programma;
+
 import javax.xml.stream.*;
 import analizzatoresemantico.Env;
-import yapl2.Programma;
 
 public class Driver {
 	

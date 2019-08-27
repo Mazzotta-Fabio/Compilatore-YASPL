@@ -1,4 +1,4 @@
-package yapl2;
+package yaspl2;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -6,7 +6,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import analizzatoresemantico.Env;
 import toolmanutenzione.*;
-import yapl2.Expr.*;
+import yaspl2.Expr.*;
 
 //nodo var_decl
 public abstract class Var_decl implements AzioniCompilatore{

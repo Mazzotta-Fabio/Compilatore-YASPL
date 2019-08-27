@@ -6,8 +6,9 @@
 package cup.example;
 
 import java.util.*;
-import yapl2.*;
+
 import java_cup.runtime.ComplexSymbolFactory.Location;
+import yaspl2.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20141204 (SVN rev 60) generated parser.

@@ -1,4 +1,4 @@
-package yapl2;
+package yaspl2;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;

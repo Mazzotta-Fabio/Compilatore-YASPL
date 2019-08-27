@@ -1,4 +1,4 @@
-package yapl2;
+package yaspl2;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -6,8 +6,8 @@ import javax.xml.stream.XMLStreamWriter;
 
 import analizzatoresemantico.Env;
 import toolmanutenzione.*;
-import yapl2.Expr.Identifier;
-import yapl2.Expr.Type;
+import yaspl2.Expr.Identifier;
+import yaspl2.Expr.Type;
 
 //collaudata
 public abstract class Stat implements AzioniCompilatore{

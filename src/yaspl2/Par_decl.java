@@ -1,4 +1,4 @@
-package yapl2;
+package yaspl2;
 
 import java.util.*;
 import java.io.PrintWriter;
@@ -7,8 +7,8 @@ import javax.xml.stream.XMLStreamWriter;
 import analizzatoresemantico.Env;
 import analizzatoresemantico.OttieniTipo;
 import toolmanutenzione.*;
-import yapl2.Var_decl.*;
-import yapl2.Expr.*;
+import yaspl2.Expr.*;
+import yaspl2.Var_decl.*;
 
 //collaudata
 public abstract class Par_decl implements AzioniCompilatore,OttieniTipo{
