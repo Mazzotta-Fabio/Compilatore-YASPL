@@ -1,12 +1,11 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import analizzatoresemantico.OttieniTipo;
-import cup.example.sym;
-import toolmanutenzione.*;
+import graphcomponent.Graph;
+import scopehandler.Env;
+import scopehandler.OttieniTipo;
+import yasplcompiler.sym;
 
 //collaudata
 public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
@@ -49,12 +48,8 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			e.controlFlowDati(t);
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			e.drawNode(x, c);
+		public void buildControlFlow(Graph<String> g) {
+			e.buildControlFlow(g);
 		}
 	}
 	
@@ -128,14 +123,9 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			e1.controlFlowDati(t);
-			e2.controlFlowDati(t);			
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			e1.drawNode(x, c);
-			e2.drawNode(x, c);
+		public void buildControlFlow(Graph<String> g) {
+			e1.buildControlFlow(g);
+			e2.buildControlFlow(g);
 		}
 	}
 	
@@ -184,12 +174,8 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			e1.controlFlowDati(t);
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			e1.drawNode(x, c);
+		public void buildControlFlow(Graph<String> g) {
+			e1.buildControlFlow(g);
 		}
 	}
 	
@@ -263,14 +249,9 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			/*do nothing*/
-			
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			//do nothing
-			
+		public void buildControlFlow(Graph<String> g) {
+			String oldValue=g.getLastNode().getInstruction();
+			g.getLastNode().setInstruction(oldValue+" COSTANTENUMERICA ");
 		}
 	}
 	
@@ -320,12 +301,9 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			t.aggiornaEspressione(i,"u");
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			x.writeAttribute("varU",i);
+		public void buildControlFlow(Graph<String> g) {
+			String oldValue=g.getLastNode().getInstruction();
+			g.getLastNode().setInstruction(oldValue+" ARGOMENTO "+i);
 		}
 	}
 	
@@ -334,100 +312,91 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 	}
 	
 	//nodo String_const
-		public static class StringConst extends Expr {
-			private String i;
-			private String type;
-			public StringConst(String i){
-			    this.i=i;
-			}
-			public String toString(){
-			    return i;
-			}
-			@Override
-			public void drawComponent(XMLStreamWriter x) throws Exception {
-				x.writeStartElement("STRING_CONST");
-				x.writeAttribute("VALUE", i);
-				x.writeEndElement();
-			}
-			@Override
-			public void scriviCodice(PrintWriter c) throws Exception {
-				c.write("\""+i+"\\n\"");
-			}
-			@Override
-			public void startScoping(Env e) {
-				type="void";
-			}
-			@Override
-			public String getType() {
-				return type;
-			}
-			/**
-			 * manutenzione
-			 */
-			@Override
-			public void controlFlowDati(TracciaDati t) throws Exception {
-				/*do nothing*/
-			}
-			@Override
-			public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-				//do nothing
-				
-			}
+	public static class StringConst extends Expr {
+		private String i;
+		private String type;
+		public StringConst(String i){
+			this.i=i;
 		}
+		public String toString(){
+			return i;
+		}
+		@Override
+		public void drawComponent(XMLStreamWriter x) throws Exception {
+			x.writeStartElement("STRING_CONST");
+			x.writeAttribute("VALUE", i);
+			x.writeEndElement();
+		}
+		@Override
+		public void scriviCodice(PrintWriter c) throws Exception {
+			c.write("\""+i+"\\n\"");
+		}
+		@Override
+		public void startScoping(Env e) {
+			type="void";
+		}
+		@Override
+		public String getType() {
+			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void buildControlFlow(Graph<String> g) {
+			String oldValue=g.getLastNode().getInstruction();
+			g.getLastNode().setInstruction(oldValue+" COSTANTESTRINGA ");
+		}
+	}
 		
 	public static StringConst makeStringConst(String s){
 		return new StringConst(s);
 	}
 		
-		//nodo TYPE
-		public static class Type extends Expr {
-			private String i;
-			private String type;
-			public Type(String i){
-			    this.i=i;
-			}
-			public String toString(){
-			    return i;
-			}
-			@Override
-			public void drawComponent(XMLStreamWriter x) throws Exception {
-				String type=null;
-				if(i.equals("int")){type="INTEGER";}
-				if(i.equals("double")){type="DOUBLE";}
-				if(i.equals("bool")){type="BOOLEAN";}
-				x.writeStartElement(type);
-				x.writeEndElement();
-			}
-			@Override
-			public void scriviCodice(PrintWriter c) throws Exception {
-				if(i.equals("bool")){
-					i="int";
-				}
-				c.write(i+" ");
-			}
-			@Override
-			public void startScoping(Env e) {
-				type=i;
-			}
-			@Override
-			public String getType() {
-				return type;
-			}
-			/**
-			 * manutenzione
-			 */
-			@Override
-			public void controlFlowDati(TracciaDati t) throws Exception {
-				/*do nothing*/
-			}
-			@Override
-			public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-				//do nothing
-				
-			}
+	//nodo TYPE
+	public static class Type extends Expr {
+		private String i;
+		private String type;
+		public Type(String i){
+			this.i=i;
 		}
-		
-		public static Type makeType(String s){
-			return new Type(s);
+		public String toString(){
+			return i;
 		}
+		@Override
+		public void drawComponent(XMLStreamWriter x) throws Exception {
+			String type=null;
+			if(i.equals("int")){type="INTEGER";}
+			if(i.equals("double")){type="DOUBLE";}
+			if(i.equals("bool")){type="BOOLEAN";}
+			x.writeStartElement(type);
+			x.writeEndElement();
+		}
+		@Override
+		public void scriviCodice(PrintWriter c) throws Exception {
+			if(i.equals("bool")){
+				i="int";
+			}
+			c.write(i+" ");
+		}
+		@Override
+		public void startScoping(Env e) {
+			type=i;
+		}
+		@Override
+		public String getType() {
+			return type;
+		}
+		/**
+		 * manutenzione
+		 */
+		@Override
+		public void buildControlFlow(Graph<String> g) {
+			//do nothing
+		}
+	}
+	
+	public static Type makeType(String s){
+		return new Type(s);
+	}
 }

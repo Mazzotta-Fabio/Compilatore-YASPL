@@ -1,12 +1,11 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
 import java.util.*;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import toolmanutenzione.*;
-import yaspl2.Expr.*;
+import astcomponent.Expr.*;
+import graphcomponent.*;
+import scopehandler.Env;
 
 //nodo var_decl
 public abstract class Var_decl implements AzioniCompilatore{
@@ -68,12 +67,8 @@ public abstract class Var_decl implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			var.drawNode(x,t);
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			var.controlFlowDati(t);
+		public void buildControlFlow(Graph<String> g) {
+			var.buildControlFlow(g);
 		}
 	}
 	
@@ -135,19 +130,23 @@ public abstract class Var_decl implements AzioniCompilatore{
 		 * parte manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
+			String variabili="";
 			for(int i=id.size()-1;i>=0;i--) {
-				x.writeAttribute("var"+i, id.get(i).toString());
+				variabili=variabili+id.get(i).toString()+" ";
 			}
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			for(int i=id.size()-1;i>=0;i--) {
-				if((t.getPrec()!=null)&&(t.getTabella().size()<=id.size())){
-					t.aggiungiNuovaVariabile(id.get(i).toString(),"d");
-				}
-				else {
-					t.aggiungiNuovaVariabile(id.get(i).toString(),"a");
+			if((g.getLastNode().element().equals("ARGOMENTIFUNZIONE"))||(g.getLastNode().element().equals("DICHIARAZIONIVARIABILICORPOFUNZIONE"))) {
+				String oldValue=g.getLastNode().getInstruction();
+				g.getLastNode().setInstruction(oldValue+" "+variabili);
+			}
+			else {
+				String oldValue=g.getFirstNode().getInstruction();
+				g.getFirstNode().setInstruction(oldValue+" "+variabili);
+			}
+			Iterator<Vertex<String>> it=g.vertices();
+			while(it.hasNext()) {
+				if(it.next().element().equals("DICHIARAZIONEVARIABILI")) {
+					it.next().setInstruction(variabili);
 				}
 			}
 		}

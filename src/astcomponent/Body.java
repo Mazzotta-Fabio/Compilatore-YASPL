@@ -1,12 +1,11 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
-
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import toolmanutenzione.*;
+import graphcomponent.Graph;
+import graphcomponent.Vertex;
+import scopehandler.Env;
 
 //controllata
 public abstract class Body implements AzioniCompilatore{
@@ -70,31 +69,19 @@ public abstract class Body implements AzioniCompilatore{
 		 */
 		
 		@Override
-		public void drawNode(XMLStreamWriter x,TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
+			if(varD.size()!=0) {
+				Vertex<String> lastNode=g.getLastNode();
+				Vertex<String> u=g.insertVertex("DICHIARAZIONIVARIABILICORPOFUNZIONE","");
+				g.insertDirectedEdge(lastNode, u, "NORMAL");
+			}
 			for(int i=varD.size()-1;i>=0;i--){
 				Var_decl var=varD.get(i);
-				var.drawNode(x, t);
+				var.buildControlFlow(g);
 			}
 			for(int i=stat.size()-1;i>=0;i--){
 				Stat stat1=stat.get(i);
-				stat1.drawNode(x, t);
-			}
-			x.writeStartElement("NODOFINALEFUNZIONE"+t.incrementaNodi());
-			for(int i=stat.size();i>=0;i--){
-				x.writeEndElement();
-			}
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			if(t.getPrec()!=null) {
-				for(int i=varD.size()-1;i>=0;i--){
-					Var_decl var=varD.get(i);
-					var.controlFlowDati(t);
-				}
-			}
-			for(int i=stat.size()-1;i>=0;i--){
-				Stat stat1=stat.get(i);
-				stat1.controlFlowDati(t);
+				stat1.buildControlFlow(g);
 			}
 		}
 	}

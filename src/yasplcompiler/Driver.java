@@ -1,15 +1,10 @@
-package cup.example;
+package yasplcompiler;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java_cup.runtime.*;
-import toolmanutenzione.TracciaDati;
-import yaspl2.Programma;
-
+import scopehandler.Env;
 import javax.xml.stream.*;
-import analizzatoresemantico.Env;
+import astcomponent.Programma;
 
 public class Driver {
 	
@@ -55,7 +50,7 @@ public class Driver {
 				//analizzatore Semantico
 				Env e=new Env(null);
 				prog.startScoping(e);
-			
+
 				//disegniamo l'albero sintattico dopo l'analisi semantica
 				XMLOutputFactory outFactory2=XMLOutputFactory.newInstance();
 				XMLStreamWriter sw2 = outFactory2.createXMLStreamWriter(new FileOutputStream("fileXML/ASTsemantic.xml"),"utf-8");
@@ -73,50 +68,14 @@ public class Driver {
 				 * parte progetto IGES (tool manutenzione)
 				 */
 				//control flow Graph
-				TracciaDati tracciatura=new TracciaDati(null);
+				GraphGenerator graphGenerator=new GraphGenerator();
+				graphGenerator.getControlFlowGraph(prog);
+				//stampiamo il grafo sul xml
 				XMLOutputFactory outFactory3=XMLOutputFactory.newInstance();
 				XMLStreamWriter sw3 = outFactory3.createXMLStreamWriter(new FileOutputStream("fileXML/controlGraph.xml"),"utf-8");
 				sw3.writeStartDocument("utf-8", "1.0");
-				prog.drawNode(sw3, tracciatura);
+				graphGenerator.drawGraph(sw3);
 				sw3.writeEndDocument();
-				
-				//analisi flusso dati
-				File reportFile=new File("analisiReport.txt");
-				FileWriter out2=new FileWriter(reportFile);
-				PrintWriter stampa=new PrintWriter(out2,true);
-				prog.controlFlowDati(tracciatura);
-				Hashtable<String,String> tabella=tracciatura.getTabella(); 
-				Enumeration<String> variabili= tabella.keys();
-				while(variabili.hasMoreElements()) {
-					String variabile=variabili.nextElement();
-					String espressione=tabella.get(variabile);
-					if(tracciatura.analisiAnomalie(espressione)) {
-						System.out.println("Variabile: "+ variabile + " Espressione: " + espressione + " Anomalie: non presenti!");
-					}
-					else {
-						System.out.println("Variabile: "+ variabile + " Espressione: " + espressione + " Anomalie: presenti!");
-					}
-					tracciatura.eseguiReachingDefinition(stampa,variabile,espressione);
-				}
-				ArrayList<TracciaDati> tracciatureFunzioni=tracciatura.getTracciatureFunzioni();
-				if(tracciatureFunzioni.size()>0){
-					System.out.println("\nAnalisi del flusso effettuate dentro le funzioni:\n");
-					for(TracciaDati t:tracciatureFunzioni) {
-						Hashtable<String,String> tabellaFunzione=t.getTabella(); 
-						Enumeration<String> variabili1= tabellaFunzione.keys();
-						while(variabili1.hasMoreElements()) {
-							String variabile=variabili1.nextElement();
-							String espressione=tabellaFunzione.get(variabile);
-							if(tracciatura.analisiAnomalie(espressione)) {
-								System.out.println("Variabile: "+ variabile + " Espressione: " + espressione + " Anomalie: non presenti!");
-							}
-							else {
-								System.out.println("Variabile: "+ variabile + " Espressione: " + espressione + " Anomalie: presenti!");
-							}
-							tracciatura.eseguiReachingDefinition(stampa,variabile,espressione);
-						}
-					}
-				}
 			}
 			else{
 				System.out.println("File not Found");

@@ -1,14 +1,12 @@
-package yaspl2;
+package astcomponent;
 
 //collaudata
 import java.io.*;
 import java.util.List;
-
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import toolmanutenzione.*;
-import yaspl2.Expr.*;
+import astcomponent.Expr.*;
+import graphcomponent.*;
+import scopehandler.Env;
 
 //nodo def_decl
 public abstract class Def_decl implements AzioniCompilatore{
@@ -81,7 +79,6 @@ public abstract class Def_decl implements AzioniCompilatore{
 		public void startScoping(Env e) {
 			if(e.controllaNomeFunzione(attribute.toString())) {
 				throw new IllegalArgumentException("Esiste una variabile dichiarata con questo nome: "+attribute.toString());
-				
 			}
 			if(e.existFunction(attribute.toString())){
 				e.addVariabile(attribute.toString(),"def"+attribute.toString());
@@ -113,34 +110,19 @@ public abstract class Def_decl implements AzioniCompilatore{
 		 */
 		
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODOFUNZIONEINIZIALE"+t.incrementaNodi());
-			x.writeAttribute("funzione", attribute.toString());
-			for(int i=listVar.size()-1;i>=0;i--) {
-				Var_decl var=listVar.get(i);
-				var.drawNode(x, t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> u=g.insertVertex("DEFFUNZIONE", " NOME DELLA FUNZIONE: "+attribute.toString());
+			Vertex<String> v=g.insertVertex("ARGOMENTIFUNZIONE", "");
+			g.insertDirectedEdge(u, v,"NORMAL");
+			for(int i=listVar.size()-1;i>=0;i--){
+				Var_decl vard=listVar.get(i);
+				vard.buildControlFlow(g);
 			}
-			for(int i=parDecl.size()-1;i>=0;i--) {
-				Par_decl par=parDecl.get(i);
-				par.drawNode(x,t);
-			}
-			body.drawNode(x, t);
-			x.writeEndElement();
-		}
-		
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			if(t.getPrec()!=null) {
-				for(int i=listVar.size()-1;i>=0;i--){
-					Var_decl vard=listVar.get(i);
-					vard.controlFlowDati(t);
-				}
-			}
+			body.buildControlFlow(g);
 			for(int i=parDecl.size()-1;i>=0;i--){
 				Par_decl par=parDecl.get(i);
-				par.controlFlowDati(t);
+				par.buildControlFlow(g);
 			}
-			body.controlFlowDati(t);
 		}
 	}
 	

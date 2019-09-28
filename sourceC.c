@@ -1,28 +1,23 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-int a,b,x,y;
+double media,sum,x,n,i;
 int main(void){
-	scanf("%d",&x);
+	printf("Quanti numeri?\n");
+	scanf("%lf",&n);
 
-	scanf("%d",&y);
+	i=1.0;
+	while(i<=n)	{
+	printf("x= \n");
+	scanf("%lf",&x);
 
-	a=x;
-	a=y;
-	while(!(a==b))	{
-	if(a>b)	{
-	a=a-b;
-	}
-
-	else	{
-	b=b-a;
+	sum=sum+x;
+	i=i+1.0;
 	}
 
 
-	}
-
-
-	printf("Il massimo comune divisore è\n",a);
+	media=sum/n;
+	printf("Valore della media= %f\n",media);
 	  system("pause");
 	return 0;
 }

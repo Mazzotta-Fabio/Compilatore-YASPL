@@ -1,12 +1,12 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import toolmanutenzione.*;
+import graphcomponent.Graph;
+import scopehandler.Env;
+import yasplcompiler.GraphGenerator;
 
 //collaudata
 public abstract class Programma implements AzioniCompilatore{
@@ -56,23 +56,14 @@ public abstract class Programma implements AzioniCompilatore{
 		/**
 		 * manutenzione
 		 */
+		
 		@Override
-		public void drawNode(XMLStreamWriter x,TracciaDati t) throws Exception{
-			vars.drawNode(x, t);
+		public void buildControlFlow(Graph<String> g) {
+			vars.buildControlFlow(g);
 			for(int i=stat.size()-1;i>=0;i--) {
 				Stat st=stat.get(i);
-				st.drawNode(x, t);
+				st.buildControlFlow(g);
 			}
-			x.writeStartElement("NODOFINALE"+t.incrementaNodi());
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			vars.controlFlowDati(t);
-			for(int i=stat.size()-1;i>=0;i--) {
-				Stat st=stat.get(i);
-				st.controlFlowDati(t);
-			}
-			
 		}
 	}
 	
@@ -141,30 +132,17 @@ public abstract class Programma implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception{
-			for(int i=decls.size()-1;i>=0;i--) {
-				Def_decl func=decls.get(i);
-				func.drawNode(x, t);
-			}
-			x.writeStartElement("NODOINIZIALE"+t.incrementaNodi());
+		public void buildControlFlow(Graph<String> g) {
+			g.insertVertex("DICHIARAZIONIVARIABILI", "");
 			for(int i=vars.size()-1;i>=0;i--) {
-				Var_decl var=vars.get(i);
-				var.drawNode(x,t);
-			}
-		}
-	
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			for(int i=vars.size()-1;i>=0;i--) {
-				Var_decl var=vars.get(i);
-				var.controlFlowDati(t);
+				Var_decl var_decl=vars.get(i);
+				var_decl.buildControlFlow(g);
 			}
 			for(int i=decls.size()-1;i>=0;i--) {
-				TracciaDati tr=new TracciaDati(t);
+				Graph<String> gr=GraphGenerator.newGraph();
 				Def_decl func=decls.get(i);
-				func.controlFlowDati(tr);
-				t.addNuovaFunzione(tr);
-				func.controlFlowDati(t);
+				func.buildControlFlow(gr);
+				GraphGenerator.addGraph(gr);
 			}
 		}
 	}

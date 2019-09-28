@@ -1,13 +1,12 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.*;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import toolmanutenzione.*;
-import yaspl2.Expr.Identifier;
-import yaspl2.Expr.Type;
+import astcomponent.Expr.Identifier;
+import astcomponent.Expr.Type;
+import graphcomponent.*;
+import scopehandler.Env;
 
 //collaudata
 public abstract class Stat implements AzioniCompilatore{
@@ -103,21 +102,16 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO" + t.incrementaNodi());
-			x.writeAttribute("statement", "READ");
-			for (int i = id.size() - 1; i >= 0; i--) {
-				x.writeAttribute("varD", id.get(i).toString());
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			Vertex<String> v=g.insertVertex("READ","");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
 			for (int i = id.size() - 1; i >= 0; i--) {
-				t.aggiornaEspressione(id.get(i).toString(),"d");
-				t.incrementaPassaggi();
+				Identifier iden=id.get(i);
+				iden.buildControlFlow(g);
 			}
-			t.aggiornaEspressioneNonUsate();
 		}
 	}
 
@@ -183,22 +177,16 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO" + t.incrementaNodi());
-			x.writeAttribute("statement", "WRITE");
-			for (int i = expr.size() - 1; i >= 0; i--) {
-				expr.get(i).drawNode(x, t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			Vertex<String> v=g.insertVertex("WRITE", "");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
 			for (int i = expr.size() - 1; i >= 0; i--) {
 				Expr ex=expr.get(i);
-				ex.controlFlowDati(t);
+				ex.buildControlFlow(g);
 			}
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
 		}
 	}
 
@@ -297,37 +285,18 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO"+t.incrementaNodi());
-			x.writeAttribute("statement", "ASSIGN");
-			x.writeAttribute("varD",id);
-			if (expr != null) {
-				expr.drawNode(x, t);
-			} 
-			else {
-				bool_expr.drawNode(x, t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			Vertex<String> v=g.insertVertex("ASSIGN", "PRIMO ARGOMENTO: "+id);
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
 			if(expr!=null) {
-				expr.controlFlowDati(t);
-				if(!(expr.getClass().getName().equals("yapl2.Expr$IntDoubleConst"))){
-					t.incrementaPassaggi();
-					t.aggiornaEspressioneNonUsate();
-				}
+				expr.buildControlFlow(g);
 			}
 			else {
-				bool_expr.controlFlowDati(t);
-				if(!(bool_expr.getClass().getName().equals("yapl2.Bool_expr$BoolConst"))){
-					t.incrementaPassaggi();
-					t.aggiornaEspressioneNonUsate();
-				}
+				bool_expr.buildControlFlow(g);
 			}
-			t.aggiornaEspressione(id,"d");
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
 		}
 	}
 
@@ -442,30 +411,20 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO"+t.incrementaNodi());
-			x.writeAttribute("statement","CALL TO FUNCTION");
-			x.writeAttribute("nomeFunzione",id);
-			for (int i = expr.size() - 1; i >= 0; i--) {
-				expr.get(i).drawNode(x, t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			Vertex<String> v=g.insertVertex("CALLOP","");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
-			for (int i = listId.size() - 1; i >= 0; i--) {
-				listId.get(i).drawNode(x, t);
-			}
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			for (int i = expr.size() - 1; i >= 0; i--) {
+			for(int i = expr.size() - 1; i >= 0; i--) {
 				Expr exp=expr.get(i);
-				exp.controlFlowDati(t);
+				exp.buildControlFlow(g);
 			}
-			for (int i = listId.size() - 1; i >= 0; i--) {
+			for(int i = listId.size() - 1; i >= 0; i--) {
 				Identifier id=listId.get(i);
-				t.aggiornaEspressione(id.toString(), "d");
+				id.buildControlFlow(g);
 			}
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
 		}
 	}
 
@@ -526,20 +485,13 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			for(int i=stats.size()-1;i>=0;i--) {
-				Stat st=stats.get(i);
-				st.drawNode(x, t);
-			}
-			for(int i=stats.size()-1;i>=0;i--) {
-				x.writeEndElement();
-			}
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
 			for (int i = stats.size() - 1; i >= 0; i--) {
 				Stat stat1=stats.get(i);
-				stat1.controlFlowDati(t);
+				stat1.buildControlFlow(g);
+				if(i==stats.size()-1) {
+					g.changeNameEdge("STATEMENTTRUE");
+				}
 			}
 		}
 	}
@@ -597,19 +549,17 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO"+t.incrementaNodi());
-			x.writeAttribute("statement", "WHILE");
-			cond.drawNode(x, t);
-			stat.drawNode(x, t);
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			cond.controlFlowDati(t);
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
-			stat.controlFlowDati(t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			String nomeIstr="WHILE"+g.getNumeVer();
+			Vertex<String>v=g.insertVertex(nomeIstr, "");
+			g.addLastCond(nomeIstr);
+			g.insertDirectedEdge(lastNode, v, "NORMAL");
+			cond.buildControlFlow(g);
+			stat.buildControlFlow(g);
+			g.changeStatement(nomeIstr);
+			Vertex<String> u=g.getNode(nomeIstr);
+			g.insertDirectedEdge(g.getLastNode(),u, "NORMAL");
 		}
 	}
 
@@ -669,19 +619,16 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO"+t.incrementaNodi());
-			x.writeAttribute("statement", "IF");
-			expr.drawNode(x, t);
-			stat.drawNode(x,t);
-		}
-
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			expr.controlFlowDati(t);
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
-			stat.controlFlowDati(t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			String nomeIstr="IFTHEN"+g.getNumeVer();
+			Vertex<String>v=g.insertVertex(nomeIstr, "");
+			g.insertDirectedEdge(lastNode,v,"NORMAL");
+			expr.buildControlFlow(g);
+			g.addLastCond(nomeIstr);
+			stat.buildControlFlow(g);
+			g.changeStatement(nomeIstr);
+			g.setLastNodeIfelseFalse(g.getLastNode());
 		}
 	}
 
@@ -746,20 +693,19 @@ public abstract class Stat implements AzioniCompilatore{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeStartElement("NODO"+t.incrementaNodi());
-			x.writeAttribute("statement", "IFELSE");
-			expr.drawNode(x, t);
-			stat.drawNode(x, t);
-			stat2.drawNode(x, t);
-		}
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			expr.controlFlowDati(t);
-			t.incrementaPassaggi();
-			t.aggiornaEspressioneNonUsate();
-			stat.controlFlowDati(t);
-			stat2.controlFlowDati(t);
+		public void buildControlFlow(Graph<String> g) {
+			Vertex<String> lastNode=g.getLastNode();
+			String nomeIstr="IFTHENELSE"+g.getNumeVer();
+			Vertex<String> v =g.insertVertex(nomeIstr,"");
+			g.insertDirectedEdge(lastNode, v, "NORMAL");
+			expr.buildControlFlow(g);
+			g.addLastCond(nomeIstr);
+			stat.buildControlFlow(g);
+			g.changeStatement(nomeIstr);
+			lastNode=g.getLastNode();
+			stat2.buildControlFlow(g);
+			g.setLastNodeIfElseTrue(lastNode);
+			g.setLastNodeIfelseFalse(g.getLastNode());
 		}
 	}
 

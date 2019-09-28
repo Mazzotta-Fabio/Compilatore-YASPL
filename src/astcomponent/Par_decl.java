@@ -1,14 +1,12 @@
-package yaspl2;
+package astcomponent;
 
 import java.util.*;
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import analizzatoresemantico.OttieniTipo;
-import toolmanutenzione.*;
-import yaspl2.Expr.*;
-import yaspl2.Var_decl.*;
+import astcomponent.Expr.*;
+import astcomponent.Var_decl.*;
+import graphcomponent.*;
+import scopehandler.*;
 
 //collaudata
 public abstract class Par_decl implements AzioniCompilatore,OttieniTipo{
@@ -61,17 +59,12 @@ public abstract class Par_decl implements AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati t) throws Exception {
-			x.writeAttribute("valoreDiRitorno", varOp.toString());
-		}
-		
-		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
 			List<Identifier> list=varOp.getID();
 			for(int i=list.size()-1;i>=0;i--) {
-				if(t.getPrec()!=null){
-					t.aggiungiNuovaVariabile(list.get(i).toString(), "a");
-				}
+				Vertex<String> lastNode=g.getLastNode();
+				Vertex<String> u=g.insertVertex("RETURNVALUEFUNCTION", list.get(i).toString());
+				g.insertDirectedEdge(lastNode,u,"NORMAL");
 			}
 		}
 	}

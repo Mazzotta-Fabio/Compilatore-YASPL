@@ -1,0 +1,25 @@
+head
+
+	double raggio,area;
+	int i,n;
+
+start
+
+	"Quanti cerchi?" ->;
+	n <- int;
+	i=1;
+	while(n>0)
+	do{
+	    "cerchio n. %d   raggio: ",i ->;
+	    raggio <- double;
+	    if(raggio<0.0)then{
+	       "valore del raggio non valido " ->;
+	    }
+	    else{
+	       area=3.14*(raggio*raggio);
+	       "area: %lf ",area ->;
+	    };
+	    n=n-1;
+	    i=i+1;
+	};
+	

@@ -1,12 +1,11 @@
-package yaspl2;
+package astcomponent;
 
 import java.io.PrintWriter;
 import javax.xml.stream.XMLStreamWriter;
-
-import analizzatoresemantico.Env;
-import analizzatoresemantico.OttieniTipo;
-import cup.example.sym;
-import toolmanutenzione.*;
+import graphcomponent.Graph;
+import scopehandler.Env;
+import scopehandler.OttieniTipo;
+import yasplcompiler.sym;
 
 //collaudata
 public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
@@ -50,12 +49,8 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			e.controlFlowDati(t);
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			e.drawNode(x, c);
+		public void buildControlFlow(Graph<String> g) {
+			e.buildControlFlow(g);
 		}
 	}
 	public static Priority2 priority(Bool_expr e){
@@ -167,25 +162,14 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
 			if((e1==null)&&(e2==null)) {
-				expr1.controlFlowDati(t);
-				expr2.controlFlowDati(t);
+				expr1.buildControlFlow(g);
+				expr2.buildControlFlow(g);
 			}
 			else {
-				e1.controlFlowDati(t);
-				e2.controlFlowDati(t);
-			}
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			if((e1==null)&&(e2==null)) {
-				expr1.drawNode(x, c);
-				expr2.drawNode(x, c);
-			}
-			else {
-				e1.drawNode(x, c);
-				e2.drawNode(x, c);
+				e1.buildControlFlow(g);
+				e2.buildControlFlow(g);
 			}
 		}
 	}
@@ -270,21 +254,12 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
+		public void buildControlFlow(Graph<String> g) {
 			if(expr==null) {
-				e1.controlFlowDati(t);
+				e1.buildControlFlow(g);
 			}
 			else {
-				expr.controlFlowDati(t);
-			}
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			if(expr==null) {
-				e1.drawNode(x, c);
-			}
-			else {
-				expr.drawNode(x, c);
+				expr.buildControlFlow(g);
 			}
 		}
 	}
@@ -338,12 +313,10 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			/*do nothing*/
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			/*do nothing*/			
+		public void buildControlFlow(Graph<String> g) {
+			String oldValue=g.getLastNode().getInstruction();
+			g.getLastNode().setInstruction(oldValue+" COSTANTEBOOLEANA ");
+			
 		}
 	}
 	
@@ -390,14 +363,9 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			t.aggiornaEspressione(i, "u");
-			
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			x.writeAttribute("var", i);
-			
+		public void buildControlFlow(Graph<String> g) {
+			String oldValue=g.getLastNode().getInstruction();
+			g.getLastNode().setInstruction(oldValue+" VARIABILECONDIZIONE ");
 		}
 	}
 	
@@ -474,14 +442,9 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 * manutenzione
 		 */
 		@Override
-		public void controlFlowDati(TracciaDati t) throws Exception {
-			e1.controlFlowDati(t);
-			e2.controlFlowDati(t);
-		}
-		@Override
-		public void drawNode(XMLStreamWriter x, TracciaDati c) throws Exception {
-			e1.drawNode(x, c);
-			e2.drawNode(x, c);
+		public void buildControlFlow(Graph<String> g) {
+			e1.buildControlFlow(g);
+			e2.buildControlFlow(g);	
 		}
 	}
 	

@@ -1,6 +1,6 @@
-package toolmanutenzione;
+package flowhandler;
 
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import java.util.*;
 
 public class TracciaDati {
@@ -97,7 +97,7 @@ public class TracciaDati {
 		}
 		return true;
 	}
-	
+	/*
 	public void eseguiReachingDefinition(PrintWriter c,String variabile,String espressione) {
 		c.println("La variabile " + variabile + " :");
 		char [] valori=espressione.toCharArray();
@@ -122,7 +122,7 @@ public class TracciaDati {
 			}
 		}
 	}
-
+*/
 	public int getContaPassaggi() {
 		return contaPassaggiVariabili;
 	}

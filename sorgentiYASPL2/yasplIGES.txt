@@ -1,20 +1,19 @@
 head
 
-	int a,b,x,y;
-	
-    
+	double media,sum,x,n,i;
 start
-	x <- int;
-	y <- int;
-	a=x;
-	a=y;
-	while(not(a==b))
-	do{
-		if(a>b)then{
-			a=a-b;
-		}
-		else{
-			b=b-a;
-		};
-	};
-	"Il massimo comune divisore è",a ->;
+     "Quanti numeri?" ->;
+     n <- double;
+     i=1.0;
+     while(i<=n)
+     do{
+        "x= " ->;
+        x <-double;
+        sum=sum+x;
+        i=i+1.0;
+     };
+     media=sum/n;
+     "Valore della media= %f",media ->;
+     
+
+	

@@ -1,4 +1,4 @@
-package analizzatoresemantico;
+package scopehandler;
 
 import java.util.*;
 /*
