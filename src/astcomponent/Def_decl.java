@@ -111,7 +111,7 @@ public abstract class Def_decl implements AzioniCompilatore{
 		
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			Vertex<String> u=g.insertVertex("DEFFUNZIONE", " NOME DELLA FUNZIONE: "+attribute.toString());
+			Vertex<String> u=g.insertVertex("DEFFUNZIONE", attribute.toString());
 			Vertex<String> v=g.insertVertex("ARGOMENTIFUNZIONE", "");
 			g.insertDirectedEdge(u, v,"NORMAL");
 			for(int i=listVar.size()-1;i>=0;i--){

@@ -287,7 +287,7 @@ public abstract class Stat implements AzioniCompilatore{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
-			Vertex<String> v=g.insertVertex("ASSIGN", "PRIMO ARGOMENTO: "+id);
+			Vertex<String> v=g.insertVertex("ASSIGN", id);
 			if(!(g.setEdgeFalseStatement(v))) {
 				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}

@@ -1,4 +1,6 @@
 head
+ 
+   //quadrato
    int x,y,n;
 start
    x <- int;
@@ -13,4 +15,4 @@ start
    	};
     "RISULTATO %d",y ->;
    };
-   "PROGRAMMA FINITO" ->;
+   

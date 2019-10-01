@@ -10,7 +10,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/yasplIGES.txt");
+			File f=new File("sorgentiYASPL2/provaTracciatura.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori
@@ -76,6 +76,11 @@ public class Driver {
 				sw3.writeStartDocument("utf-8", "1.0");
 				graphGenerator.drawGraph(sw3);
 				sw3.writeEndDocument();
+				//facciamo reaching definition e data flow analisys
+				File fileScript=new File("analisiReport.txt");
+				FileWriter filewriter=new FileWriter(fileScript);
+				PrintWriter printer=new PrintWriter(filewriter,true);
+				graphGenerator.eseguiReachingDefinition(printer);
 			}
 			else{
 				System.out.println("File not Found");

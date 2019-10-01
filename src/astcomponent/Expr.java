@@ -250,8 +250,9 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" COSTANTENUMERICA ");
+			/*
+			do nothing
+			*/
 		}
 	}
 	
@@ -303,7 +304,7 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" ARGOMENTO "+i);
+			g.getLastNode().setInstruction(oldValue+" "+i);
 		}
 	}
 	
@@ -344,8 +345,9 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" COSTANTESTRINGA ");
+			/*
+			do nothing
+			*/
 		}
 	}
 		

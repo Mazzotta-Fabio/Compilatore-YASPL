@@ -137,11 +137,11 @@ public abstract class Var_decl implements AzioniCompilatore{
 			}
 			if((g.getLastNode().element().equals("ARGOMENTIFUNZIONE"))||(g.getLastNode().element().equals("DICHIARAZIONIVARIABILICORPOFUNZIONE"))) {
 				String oldValue=g.getLastNode().getInstruction();
-				g.getLastNode().setInstruction(oldValue+" "+variabili);
+				g.getLastNode().setInstruction(oldValue+variabili);
 			}
 			else {
 				String oldValue=g.getFirstNode().getInstruction();
-				g.getFirstNode().setInstruction(oldValue+" "+variabili);
+				g.getFirstNode().setInstruction(oldValue+variabili);
 			}
 			Iterator<Vertex<String>> it=g.vertices();
 			while(it.hasNext()) {

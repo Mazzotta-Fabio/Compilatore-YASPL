@@ -314,9 +314,9 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" COSTANTEBOOLEANA ");
-			
+			/*
+			 * do nothing
+			 */
 		}
 	}
 	
@@ -364,8 +364,9 @@ public abstract class Bool_expr implements sym,AzioniCompilatore,OttieniTipo{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" VARIABILECONDIZIONE ");
+			/*
+			 * do nothing
+			*/
 		}
 	}
 	

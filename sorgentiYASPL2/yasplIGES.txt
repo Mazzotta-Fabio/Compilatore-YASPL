@@ -4,7 +4,7 @@ head
 start
      "Quanti numeri?" ->;
      n <- double;
-     i=1.0;
+     i=i+1.0;
      while(i<=n)
      do{
         "x= " ->;
@@ -14,6 +14,3 @@ start
      };
      media=sum/n;
      "Valore della media= %f",media ->;
-     
-
-	

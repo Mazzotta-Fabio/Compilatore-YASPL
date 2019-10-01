@@ -1,0 +1,15 @@
+La variabile x viene dichiarata al nodo NODO1
+       Viene definita al nodo NODO2,
+       raggiunge l'uso al nodo NODO6,
+       raggiunge l'uso al nodo NODO9;
+       Viene  definita al nodo NODO9,
+La variabile y viene dichiarata al nodo NODO1
+       Viene  definita al nodo NODO5,
+       raggiunge l'uso al nodo NODO8;
+       Viene  definita al nodo NODO8,
+       raggiunge l'uso al nodo NODO10;
+La variabile n viene dichiarata al nodo NODO1
+       Viene  definita al nodo NODO4,
+       raggiunge l'uso al nodo NODO7;
+       Viene  definita al nodo NODO7,
+       raggiunge l'uso al nodo NODO8;
