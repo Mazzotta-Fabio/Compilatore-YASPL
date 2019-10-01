@@ -125,8 +125,16 @@ public class GraphGenerator {
 					}
 					break;
 				case "CALLOP":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("       raggiunge l'uso al nodo "+v.getNomeNodo() +";");
+					String [] args=v.getInstruction().trim().split(" ");
+					String varReturn=args[args.length-1];
+					for(int j=0;j<args.length-1;j++) {
+						if(args[j].equals(variabili[i])) {
+							c.write("       raggiunge l'uso al nodo "+v.getNomeNodo() +";");
+							c.println();
+						}
+					}
+					if(varReturn.equals(variabili[i])){
+						c.write("       Viene  definita al nodo "+v.getNomeNodo()+",");
 						c.println();
 					}
 					break;
