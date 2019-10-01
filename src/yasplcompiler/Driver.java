@@ -76,7 +76,7 @@ public class Driver {
 				sw3.writeStartDocument("utf-8", "1.0");
 				graphGenerator.drawGraph(sw3);
 				sw3.writeEndDocument();
-				//facciamo reaching definition e data flow analisys
+				//facciamo reaching definition
 				File fileScript=new File("analisiReport.txt");
 				FileWriter filewriter=new FileWriter(fileScript);
 				PrintWriter printer=new PrintWriter(filewriter,true);
