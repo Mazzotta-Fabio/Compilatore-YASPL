@@ -1,10 +1,10 @@
 head
-
 	double media,sum,x,n,i;
 start
      "Quanti numeri?" ->;
      n <- double;
-     i=i+1.0;
+     i=1.0;
+     sum=0.0;
      while(i<=n)
      do{
         "x= " ->;

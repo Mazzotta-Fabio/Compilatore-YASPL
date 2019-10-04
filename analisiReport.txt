@@ -1,48 +1,18 @@
-La variabile op viene usata come argomento della funzione menu al nodo NODO2
-       Viene definita al nodo NODO4,
-       raggiunge l'uso al nodo NODO5;
-La variabile tipoOP viene dichiarata al nodo NODO1,
-       Viene  definita al nodo NODO5,
-       raggiunge l'uso al nodo NODO17,
-La variabile symbol viene usata come argomento della funzione calcolaInt al nodo NODO2
-La variabile tipo viene usata come argomento della funzione calcolaInt al nodo NODO2
-       raggiunge l'uso al nodo NODO3,
-La variabile resultInt viene dichiarata al nodo NODO1,
-       Viene  definita al nodo NODO5,
-       Viene  definita al nodo NODO7,
-       Viene  definita al nodo NODO9,
-       Viene  definita al nodo NODO11,
-       raggiunge l'uso al nodo NODO12;
-       raggiunge l'uso al nodo NODO14,
-La variabile symbol viene usata come argomento della funzione calcola al nodo NODO2
-La variabile tipo viene usata come argomento della funzione calcola al nodo NODO2
-       raggiunge l'uso al nodo NODO3,
-La variabile resultDouble viene dichiarata al nodo NODO1,
-       Viene  definita al nodo NODO5,
-       Viene  definita al nodo NODO7,
-       Viene  definita al nodo NODO9,
-       Viene  definita al nodo NODO11,
-       raggiunge l'uso al nodo NODO12;
-       raggiunge l'uso al nodo NODO14,
-La variabile fine viene dichiarata al nodo NODO1
-       Viene  definita al nodo NODO2,
-       raggiunge l'uso al nodo NODO3,
-       Viene definita al nodo NODO9,
-La variabile dato viene dichiarata al nodo NODO1
-       raggiunge l'uso al nodo NODO5,
-       raggiunge l'uso al nodo NODO6;
-       raggiunge l'uso al nodo NODO7;
-La variabile op viene dichiarata al nodo NODO1
+La variabile raggio viene dichiarata al nodo NODO1
+       Viene definita al nodo NODO7,
+       raggiunge l'uso al nodo NODO8,
+       raggiunge l'uso al nodo NODO10;
+       raggiunge l'uso al nodo NODO10;
+La variabile area viene dichiarata al nodo NODO1
+       Viene  definita al nodo NODO10,
+       raggiunge l'uso al nodo NODO11;
+La variabile i viene dichiarata al nodo NODO1
        Viene  definita al nodo NODO4,
        raggiunge l'uso al nodo NODO6;
-       raggiunge l'uso al nodo NODO7;
-La variabile dato1 viene dichiarata al nodo NODO1
-La variabile dato2 viene dichiarata al nodo NODO1
-La variabile result1 viene dichiarata al nodo NODO1
-       Viene  definita al nodo NODO6,
-La variabile result2 viene dichiarata al nodo NODO1
-       Viene  definita al nodo NODO7,
-La variabile d1 viene dichiarata al nodo NODO1
-La variabile d2 viene dichiarata al nodo NODO1
-La variabile y viene dichiarata al nodo NODO1
-       raggiunge l'uso al nodo NODO4;
+       raggiunge l'uso al nodo NODO13;
+       Viene  definita al nodo NODO13,
+La variabile n viene dichiarata al nodo NODO1
+       Viene definita al nodo NODO3,
+       raggiunge l'uso al nodo NODO5,
+       raggiunge l'uso al nodo NODO12;
+       Viene  definita al nodo NODO12,

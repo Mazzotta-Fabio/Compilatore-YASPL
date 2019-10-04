@@ -1,10 +1,7 @@
 head
-
 	double raggio,area;
 	int i,n;
-
-start
-
+start	
 	"Quanti cerchi?" ->;
 	n <- int;
 	i=1;
@@ -22,4 +19,3 @@ start
 	    n=n-1;
 	    i=i+1;
 	};
-	
