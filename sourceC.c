@@ -1,32 +1,25 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-double raggio,area;
-int i,n;
+int x,y,n;
 int main(void){
-	printf("Quanti cerchi?\n");
-	scanf("%d",&n);
+	scanf("%d",&x);
 
-	i=1;
-	while(n>0)	{
-	printf("cerchio n. %d   raggio: \n",i);
-	scanf("%lf",&raggio);
-
-	if(raggio<0.0)	{
-	printf("valore del raggio non valido \n");
-	}
-
-	else	{
-	area=3.14*(raggio*raggio);
-	printf("area: %lf \n",area);
+	if(x>0)	{
+	n=1;
+	y=1;
+	while(x>1)	{
+	n=n+2;
+	y=y+n;
+	x=x-1;
 	}
 
 
-	n=n-1;
-	i=i+1;
+	printf("RISULTATO %d\n",y);
 	}
 
 
+	printf("PROGRAMMA FINITO\n");
 	  system("pause");
 	return 0;
 }

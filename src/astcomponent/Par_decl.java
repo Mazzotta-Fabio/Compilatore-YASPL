@@ -63,8 +63,9 @@ public abstract class Par_decl implements AzioniCompilatore,OttieniTipo{
 			List<Identifier> list=varOp.getID();
 			for(int i=list.size()-1;i>=0;i--) {
 				Vertex<String> lastNode=g.getLastNode();
-				Vertex<String> u=g.insertVertex("RETURNVALUEFUNCTION", list.get(i).toString());
-				g.insertDirectedEdge(lastNode,u,"NORMAL");
+				g.insertVertex("RETURNVALUEFUNCTION");
+				g.getLastNode().addVarUs(list.get(i).toString());
+				g.insertDirectedEdge(lastNode,g.getLastNode(),"NORMAL");
 			}
 		}
 	}

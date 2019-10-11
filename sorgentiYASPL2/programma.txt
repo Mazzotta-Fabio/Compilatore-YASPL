@@ -1,0 +1,27 @@
+head
+    int x,y,a,b,c;
+start
+    x=0;
+    y=0;
+    while(y==0)
+    do{
+       a<-int;
+       c=y;
+    };
+    "Stampa variabile x %d",x->;
+    if(a>0)then{
+        b=a+1;
+    }
+    else{
+       c<-int;
+       while(b>0)
+       do{
+           "Stampa variabile y %d",y->;
+       };
+       x=a+b+x;
+    };
+    c=256;
+    if(c==256)then{
+       "Stampa variabile c %d",c->;
+    };
+    a=y+c+x;

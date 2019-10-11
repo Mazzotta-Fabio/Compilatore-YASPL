@@ -104,13 +104,13 @@ public abstract class Stat implements AzioniCompilatore{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
-			Vertex<String> v=g.insertVertex("READ","");
-			if(!(g.setEdgeFalseStatement(v))) {
-				g.insertDirectedEdge(lastNode, v, "NORMAL");
-			}
+			Vertex<String> v=g.insertVertex("READ");
 			for (int i = id.size() - 1; i >= 0; i--) {
 				Identifier iden=id.get(i);
-				iden.buildControlFlow(g);
+				g.getLastNode().setVarDef(iden.toString());
+			}
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public abstract class Stat implements AzioniCompilatore{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
-			Vertex<String> v=g.insertVertex("WRITE", "");
+			Vertex<String> v=g.insertVertex("WRITE");
 			if(!(g.setEdgeFalseStatement(v))) {
 				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
@@ -287,7 +287,8 @@ public abstract class Stat implements AzioniCompilatore{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
-			Vertex<String> v=g.insertVertex("ASSIGN", id);
+			Vertex<String> v=g.insertVertex("ASSIGN");
+			g.getLastNode().setVarDef(id);
 			if(!(g.setEdgeFalseStatement(v))) {
 				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
@@ -398,7 +399,7 @@ public abstract class Stat implements AzioniCompilatore{
 					out = e.getElementTables(id + conta);
 					type = out;
 					if (!(t.equals(out))) {
-						throw new IllegalArgumentException("Tipi incompatibili nella funzione " + id);
+						throw new IllegalArgumentException("Tipi incompatibili nella chiamata a funzione " + id);
 					}
 				}
 				if (!(e.getNumArgomenti(id + conta))) {
@@ -413,17 +414,17 @@ public abstract class Stat implements AzioniCompilatore{
 		@Override
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
-			Vertex<String> v=g.insertVertex("CALLOP","");
+			Vertex<String> v=g.insertVertex("CALLOP");
+			for(int i = listId.size() - 1; i >= 0; i--) {
+				Identifier id=listId.get(i);
+				g.getLastNode().setVarDef(id.toString());
+			}
 			if(!(g.setEdgeFalseStatement(v))) {
 				g.insertDirectedEdge(lastNode, v, "NORMAL");
 			}
 			for(int i = expr.size() - 1; i >= 0; i--) {
 				Expr exp=expr.get(i);
 				exp.buildControlFlow(g);
-			}
-			for(int i = listId.size() - 1; i >= 0; i--) {
-				Identifier id=listId.get(i);
-				id.buildControlFlow(g);
 			}
 		}
 	}
@@ -490,7 +491,7 @@ public abstract class Stat implements AzioniCompilatore{
 				Stat stat1=stats.get(i);
 				stat1.buildControlFlow(g);
 				if(i==stats.size()-1) {
-					g.changeNameEdge("STATEMENTTRUE");
+					g.changeNameEdge("TRUE      ");
 				}
 			}
 		}
@@ -552,7 +553,7 @@ public abstract class Stat implements AzioniCompilatore{
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
 			String nomeIstr="WHILE"+g.getNumeVer();
-			Vertex<String>v=g.insertVertex(nomeIstr, "");
+			Vertex<String>v=g.insertVertex(nomeIstr);
 			g.addLastCond(nomeIstr);
 			g.insertDirectedEdge(lastNode, v, "NORMAL");
 			cond.buildControlFlow(g);
@@ -622,7 +623,7 @@ public abstract class Stat implements AzioniCompilatore{
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
 			String nomeIstr="IFTHEN"+g.getNumeVer();
-			Vertex<String>v=g.insertVertex(nomeIstr, "");
+			Vertex<String>v=g.insertVertex(nomeIstr);
 			g.insertDirectedEdge(lastNode,v,"NORMAL");
 			expr.buildControlFlow(g);
 			g.addLastCond(nomeIstr);
@@ -696,7 +697,7 @@ public abstract class Stat implements AzioniCompilatore{
 		public void buildControlFlow(Graph<String> g) {
 			Vertex<String> lastNode=g.getLastNode();
 			String nomeIstr="IFTHENELSE"+g.getNumeVer();
-			Vertex<String> v =g.insertVertex(nomeIstr,"");
+			Vertex<String> v =g.insertVertex(nomeIstr);
 			g.insertDirectedEdge(lastNode, v, "NORMAL");
 			expr.buildControlFlow(g);
 			g.addLastCond(nomeIstr);

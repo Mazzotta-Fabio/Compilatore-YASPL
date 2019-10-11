@@ -303,8 +303,7 @@ public abstract class Expr implements sym,AzioniCompilatore,OttieniTipo{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String oldValue=g.getLastNode().getInstruction();
-			g.getLastNode().setInstruction(oldValue+" "+i);
+			g.getLastNode().addVarUs(i);
 		}
 	}
 	

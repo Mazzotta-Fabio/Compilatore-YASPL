@@ -72,8 +72,8 @@ public abstract class Body implements AzioniCompilatore{
 		public void buildControlFlow(Graph<String> g) {
 			if(varD.size()!=0) {
 				Vertex<String> lastNode=g.getLastNode();
-				Vertex<String> u=g.insertVertex("DICHIARAZIONIVARIABILICORPOFUNZIONE","");
-				g.insertDirectedEdge(lastNode, u, "NORMAL");
+				Vertex<String> u=g.insertVertex("DICHIARAZIONIVARIABILICORPOFUNZIONE");
+				g.insertDirectedEdge(lastNode,u, "NORMAL");
 			}
 			for(int i=varD.size()-1;i>=0;i--){
 				Var_decl var=varD.get(i);

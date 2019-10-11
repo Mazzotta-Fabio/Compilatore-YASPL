@@ -133,7 +133,7 @@ public abstract class Programma implements AzioniCompilatore{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			g.insertVertex("DICHIARAZIONIVARIABILI", "");
+			g.insertVertex("DICHIARAZIONIVARIABILI");
 			for(int i=vars.size()-1;i>=0;i--) {
 				Var_decl var_decl=vars.get(i);
 				var_decl.buildControlFlow(g);

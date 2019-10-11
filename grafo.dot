@@ -1,0 +1,39 @@
+diGraph G {
+NODO1 [label="NODO1 DICHIARAZIONIVARIABILI varAnnullate:n y x "]
+NODO2 [label="NODO2 READ varDefinite:x "]
+NODO1 -> NODO2
+NODO2 [label="NODO2 READ varDefinite:x "]
+NODO3 [label="NODO3 IFTHEN2 varUsate:x "]
+NODO2 -> NODO3
+NODO3 [label="NODO3 IFTHEN2 varUsate:x "]
+NODO4 [label="NODO4 ASSIGN varDefinite:n "]
+NODO3 -> NODO4 [label="TRUE      "]; 
+NODO4 [label="NODO4 ASSIGN varDefinite:n "]
+NODO5 [label="NODO5 ASSIGN varDefinite:y "]
+NODO4 -> NODO5
+NODO5 [label="NODO5 ASSIGN varDefinite:y "]
+NODO6 [label="NODO6 WHILE5 varUsate:x "]
+NODO5 -> NODO6
+NODO6 [label="NODO6 WHILE5 varUsate:x "]
+NODO7 [label="NODO7 ASSIGN varUsate:n varDefinite:n "]
+NODO6 -> NODO7 [label="TRUE      "]; 
+NODO7 [label="NODO7 ASSIGN varUsate:n varDefinite:n "]
+NODO8 [label="NODO8 ASSIGN varUsate:y n varDefinite:y "]
+NODO7 -> NODO8
+NODO8 [label="NODO8 ASSIGN varUsate:y n varDefinite:y "]
+NODO9 [label="NODO9 ASSIGN varUsate:x varDefinite:x "]
+NODO8 -> NODO9
+NODO9 [label="NODO9 ASSIGN varUsate:x varDefinite:x "]
+NODO6 [label="NODO6 WHILE5 varUsate:x "]
+NODO9 -> NODO6
+NODO6 [label="NODO6 WHILE5 varUsate:x "]
+NODO10 [label="NODO10 WRITE varUsate:y "]
+NODO6 -> NODO10 [label="FALSE"]; 
+NODO3 [label="NODO3 IFTHEN2 varUsate:x "]
+NODO11 [label="NODO11 WRITE "]
+NODO3 -> NODO11 [label="FALSE"]; 
+NODO10 [label="NODO10 WRITE varUsate:y "]
+NODO11 [label="NODO11 WRITE "]
+NODO10 -> NODO11
+
+}

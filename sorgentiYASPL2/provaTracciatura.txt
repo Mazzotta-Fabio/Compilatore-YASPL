@@ -15,4 +15,4 @@ start
    	};
     "RISULTATO %d",y ->;
    };
-   
+   "PROGRAMMA FINITO" ->;

@@ -1,8 +1,7 @@
 package yasplcompiler;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-import javax.xml.stream.*;
 import astcomponent.Programma;
 import graphcomponent.*;
 
@@ -10,54 +9,77 @@ public class GraphGenerator {
 	
 	private Graph<String> g;
 	private static ArrayList<Graph<String>> grafiFunzione;
+	private ArrayList<Tripla> triple;
+	private Token token;
 	
 	public GraphGenerator() {
 		g=new Graph<String>();
 		grafiFunzione=new ArrayList<Graph<String>>();
+		triple=new ArrayList<Tripla>();
+		token=null;
 	}
 	
 	public void getControlFlowGraph(Programma p){
 		p.buildControlFlow(g);
 	}
 	
-	public void drawGraph(XMLStreamWriter x) throws XMLStreamException {
-		for(Graph<String> grafo:grafiFunzione) {
-			Iterator<Edge<String>>it=grafo.edges();
-			while(it.hasNext()) {
-				Edge<String> arco=it.next();
-				Vertex<String> uu=arco.getStartVertex();
-				Vertex<String> vv=arco.getEndVertex();
-				x.writeStartElement(uu.getNomeNodo());
-				x.writeAttribute("tipoIstruzione", uu.element());
-				x.writeAttribute("variabiliIstruzione", uu.getInstruction());
-				x.writeStartElement("ARCO");
-				x.writeAttribute("TipoArco", arco.element());
-				x.writeStartElement(vv.getNomeNodo());
-				x.writeAttribute("tipoIstruzione", vv.element());
-				x.writeAttribute("variabiliIstruzione", vv.getInstruction());
-				x.writeEndElement();
-				x.writeEndElement();
-				x.writeEndElement();
-			}
+	/*
+	public void visualizzaCFG(PrintWriter x) {
+		for(Graph<String> gr:grafiFunzione) {
+			disegnaCFG(x,gr);
 		}
+		disegnaCFG(x,g);
+	}
+	*/
+	public void disegnaCFG(PrintWriter x) {
+		x.write("diGraph G {");
+		x.println();
 		Iterator<Edge<String>> eset=g.edges();
 		while(eset.hasNext()) {
 			Edge<String> e=eset.next();
 			Vertex<String> u=e.getStartVertex();
 			Vertex<String> v=e.getEndVertex();
-			x.writeStartElement(u.getNomeNodo());
-			x.writeAttribute("tipoIstruzione", u.element());
-			x.writeAttribute("variabiliIstruzione", u.getInstruction());
-			x.writeStartElement("ARCO");
-			x.writeAttribute("TipoArco", e.element());
-			x.writeStartElement(v.getNomeNodo());
-			x.writeAttribute("tipoIstruzione", v.element());
-			x.writeAttribute("variabiliIstruzione", v.getInstruction());
-			x.writeEndElement();
-			x.writeEndElement();
-			x.writeEndElement();
+			//nodo u
+			x.write(u.getNomeNodo() + " [label=\"" + u.getNomeNodo() +" "+u.element() +" ");
+			if(u.getVarAnn()!=null) {
+				x.write("varAnnullate:"+ u.getVarAnn()+" " );
+			}
+			if(u.getVarUs()!=null) {
+				x.write("varUsate:"+ u.getVarUs() +" " );
+			}
+			if(u.getVarDef()!=null) {
+				x.write("varDefinite:"+ u.getVarDef()+" " );
+			}
+			x.write("\"]");
+			x.println();
+			
+			//nodo v
+			x.write(v.getNomeNodo() + " [label=\"" + v.getNomeNodo() +" "+v.element() +" ");
+			if(v.getVarAnn()!=null) {
+				x.write("varAnnullate:"+ v.getVarAnn()+" " );
+			}
+			if(v.getVarUs()!=null) {
+				x.write("varUsate:"+ v.getVarUs() +" " );
+			}
+			if(v.getVarDef()!=null) {
+				x.write("varDefinite:"+ v.getVarDef()+" " );
+			}
+			x.write("\"]");
+			x.println();
+			//arco
+			x.write(u.getNomeNodo() + " -> " + v.getNomeNodo());
+			if((e.element().equals("TRUE      "))||(e.element().equals("FALSE"))) {
+				x.write(" [label=\""+e.element()+"\"]; ");
+			}
+			else if(e.element().equals("CAMMINO")) {
+				x.write(" [color=\"blue\"]; ");
+			}
+			x.println();
 		}
+		x.write("\n}");
+		x.println();
 	}
+	
 	
 	public static Graph<String> newGraph() {
 		return new Graph<String>();
@@ -67,115 +89,48 @@ public class GraphGenerator {
 		grafiFunzione.add(g);
 	}
 	
-	public void eseguiReachingDefinition(PrintWriter c) {
-		for(Graph<String> gr:grafiFunzione ) {
-			Vertex<String> u=gr.getNode("ARGOMENTIFUNZIONE");
-			Vertex<String> v=gr.getNode("DICHIARAZIONIVARIABILICORPOFUNZIONE");
-			Vertex<String> z=gr.getNode("RETURNVALUEFUNCTION");
-			String variabili[]=u.getInstruction().trim().split(" ");
-			calcolaCammini(gr,c,variabili);
-			if(v!=null) {
-				String arg[]=v.getInstruction().trim().split(" ");
-				calcolaCammini(gr,c,arg);
-			}
-			String variabile[]=new String[1];
-			variabile[0]=z.getInstruction();
-			c.write("La variabile "+ variabile[0] + " viene dichiarata al nodo " + gr.getFirstNode().getNomeNodo() +",");
-			c.println();
-			calcolaCammini(gr,c,variabile);
+	public boolean eseguiReachingDefinition(String variabile) {
+		if(!(contains(g.getFirstNode().getVarAnn(),variabile))) {
+			return false;
 		}
-		String variabili[]=g.getFirstNode().getInstruction().trim().split(" ");
-		calcolaCammini(g,c,variabili);
-		
-	}
-	private void calcolaCammini(Graph<String> grafo,PrintWriter c,String[]variabili) {
-		for(int i=0;i<variabili.length;i++) {
-			Iterator<Vertex<String>> iterator=grafo.vertices();
+		else {
+			token=new Token(variabile);
+			Iterator<Vertex<String>> iterator=g.vertices();
 			while(iterator.hasNext()) {
 				Vertex<String> v=iterator.next();
-				switch(v.element()) {
-				case "RETURNVALUEFUNCTION":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("       raggiunge l'uso al nodo "+v.getNomeNodo()+",");
-					    c.println();
-					}
-					break;
-				case "DICHIARAZIONIVARIABILI":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("La variabile "+variabili[i]+" viene dichiarata al nodo "+grafo.getFirstNode().getNomeNodo());
-					    c.println();
-					}
-					break;
-				case "DICHIARAZIONIVARIABILICORPOFUNZIONE":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("La variabile "+variabili[i]+" viene dichiarata al nodo "+v.getNomeNodo()+";");
-						c.println();
-					}
-					break;
-				case "ARGOMENTIFUNZIONE":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("La variabile " + variabili[i]+" viene usata come argomento della funzione " + grafo.getNode("DEFFUNZIONE").getInstruction() +" al nodo "+v.getNomeNodo());
-						c.println();
-					}
-					break;
-				case "READ":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("       Viene definita al nodo "+v.getNomeNodo()+",");
-						c.println();
-					}
-					break;
-				case "CALLOP":
-					String [] args=v.getInstruction().trim().split(" ");
-					String varReturn=args[args.length-1];
-					for(int j=0;j<args.length-1;j++) {
-						if(args[j].equals(variabili[i])) {
-							c.write("       raggiunge l'uso al nodo "+v.getNomeNodo() +";");
-							c.println();
-						}
-					}
-					if(varReturn.equals(variabili[i])){
-						c.write("       Viene  definita al nodo "+v.getNomeNodo()+",");
-						c.println();
-					}
-					break;
-				case "WRITE":
-					if(contains(v.getInstruction(),variabili[i])) {
-						c.write("       raggiunge l'uso al nodo "+v.getNomeNodo() +";");
-						c.println();
-					}
-					break;
-				case "ASSIGN":
-					String [] arg=v.getInstruction().trim().split(" ");
-					String id=arg[0].trim();
-					for(int j=1;j<arg.length;j++) {
-						if(arg[j].trim().equals(variabili[i])) {
-							c.write("       raggiunge l'uso al nodo "+v.getNomeNodo() +";");
-							c.println();
-						}
-					}
-					if(id.equals(variabili[i])) {
-						c.write("       Viene  definita al nodo "+v.getNomeNodo()+",");
-						c.println();
-					}
-					break;
-				default:
-					if((v.element().substring(0,5).equals("IFTHEN"))&&(contains(v.getInstruction(),variabili[i]))) {
-						c.write("       raggiunge l'uso al nodo "+v.getNomeNodo()+",");
-						c.println();
-					}
-					else {
-						if((v.element().contains("WHILE")) &&(contains(v.getInstruction(),variabili[i]))){
-							c.write("       raggiunge l'uso al nodo "+v.getNomeNodo()+",");
-							c.println();
-						}
-						else {
-							if((v.element().contains("IFTHENELSE"))&&(contains(v.getInstruction(),variabili[i]))){
-								c.write("       raggiunge l'uso al nodo "+v.getNomeNodo()+",");
-								c.println();
-							}
-						}
+				if(v.getVarUs()!=null) {
+					if(contains(v.getVarUs(),variabile)) {
+						triple.add(new Tripla(token.nodo,v.getNomeNodo(),variabile));
 					}
 				}
+				if(v.getVarDef()!=null) {
+					if(v.getVarDef().equals(variabile)) {
+						token.setNodo(v.getNomeNodo());
+					}
+				}
+			}
+			try {
+				File f=new File("analisiReport.txt");
+				FileWriter fw=new FileWriter(f);
+				PrintWriter pw=new PrintWriter(fw,true);
+				pw.println("Token: (" + token.var + "," + token.nodo +")");
+				for(Tripla t:triple) {
+					pw.println("    Tripla: "+t.toString());
+				}
+				pw.close();
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+	}
+	
+	public void tracciaCammini() {
+		//String colori[]= {"blue","red","yellow","green","pink","brown","orange"};
+		for(Tripla t:triple) {
+			if(token.nodo.equals(t.nodo1)) {
+				g.insertDirectedEdge(g.getNode(token.nodo), g.getNode(t.nodo2), "CAMMINO");
 			}
 		}
 	}
@@ -189,4 +144,32 @@ public class GraphGenerator {
 		}
 		return false;
 	}
+	
+	private class Tripla{
+		private String var;
+		private String nodo1;
+		private String nodo2;
+		
+		private Tripla(String nodo1,String nodo2,String var){
+			this.nodo1=nodo1;
+			this.nodo2=nodo2;
+			this.var=var;
+		}
+		public String toString() {
+			return "(" +nodo1+","+nodo2+","+var+")";
+		}
+	}
+	
+	private class Token{
+		private String nodo;
+		private String var;
+		
+		private Token(String var) {
+			this.var = var;
+		}
+		private void setNodo(String nodo) {
+			this.nodo = nodo;
+		}
+	}
+	
 }

@@ -131,23 +131,8 @@ public abstract class Var_decl implements AzioniCompilatore{
 		 */
 		@Override
 		public void buildControlFlow(Graph<String> g) {
-			String variabili="";
 			for(int i=id.size()-1;i>=0;i--) {
-				variabili=variabili+id.get(i).toString()+" ";
-			}
-			if((g.getLastNode().element().equals("ARGOMENTIFUNZIONE"))||(g.getLastNode().element().equals("DICHIARAZIONIVARIABILICORPOFUNZIONE"))) {
-				String oldValue=g.getLastNode().getInstruction();
-				g.getLastNode().setInstruction(oldValue+variabili);
-			}
-			else {
-				String oldValue=g.getFirstNode().getInstruction();
-				g.getFirstNode().setInstruction(oldValue+variabili);
-			}
-			Iterator<Vertex<String>> it=g.vertices();
-			while(it.hasNext()) {
-				if(it.next().element().equals("DICHIARAZIONEVARIABILI")) {
-					it.next().setInstruction(variabili);
-				}
+				g.getLastNode().addVarAnn(id.get(i).toString());
 			}
 		}
 	}

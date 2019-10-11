@@ -21,9 +21,9 @@ public class Graph<E> {
 		lastNodeIfelseTrue=null;
 	}
 	
-	public Vertex<E> insertVertex(E info,E typeInstruction) {
+	public Vertex<E> insertVertex(E info) {
 		numVer++;
-		Vertex<E> v = new Vertex<E>(info,typeInstruction,"NODO"+numVer);
+		Vertex<E> v = new Vertex<E>(info,"NODO"+numVer);
 		VList.addLast(v);
 		return v;
 	}
@@ -94,7 +94,7 @@ public class Graph<E> {
 	    }
 		if(lastConds.containsKey(false)) {
 			Vertex<E> u=getNode(lastConds.get(false));
-			insertDirectedEdge(u,v,(E)("STATEMENTFALSE"));
+			insertDirectedEdge(u,v,(E)("FALSE"));
 			if(lastNodeIfelseFalse!=null) {
 				insertDirectedEdge(lastNodeIfelseFalse,v,(E)("NORMAL"));
 				lastNodeIfelseFalse=null;
@@ -115,6 +115,9 @@ public class Graph<E> {
 		while(iterator.hasNext()) {
 			Vertex<E> v=iterator.next();
 			if(v.element().equals(e)) {
+				return v;
+			}
+			if(v.getNomeNodo().equals(e)) {
 				return v;
 			}
 		}

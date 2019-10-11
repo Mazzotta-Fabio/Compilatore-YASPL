@@ -10,7 +10,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/areacerchio.txt");
+			File f=new File("sorgentiYASPL2/provaTracciatura.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori
@@ -70,17 +70,23 @@ public class Driver {
 				//control flow Graph
 				GraphGenerator graphGenerator=new GraphGenerator();
 				graphGenerator.getControlFlowGraph(prog);
-				//stampiamo il grafo sul xml
-				XMLOutputFactory outFactory3=XMLOutputFactory.newInstance();
-				XMLStreamWriter sw3 = outFactory3.createXMLStreamWriter(new FileOutputStream("fileXML/controlGraph.xml"),"utf-8");
-				sw3.writeStartDocument("utf-8", "1.0");
-				graphGenerator.drawGraph(sw3);
-				sw3.writeEndDocument();
-				//facciamo reaching definition
-				File fileScript=new File("analisiReport.txt");
-				FileWriter filewriter=new FileWriter(fileScript);
+				//stampiamo il grafo con graphViz
+				File filegrafo=new File("grafo.dot");
+				FileWriter filewriter=new FileWriter(filegrafo);
 				PrintWriter printer=new PrintWriter(filewriter,true);
-				graphGenerator.eseguiReachingDefinition(printer);
+				graphGenerator.disegnaCFG(printer);
+				//facciamo reaching definition
+				if(!(graphGenerator.eseguiReachingDefinition("x"))) {
+					System.out.println("La variabile non esiste");
+				}
+				else {
+					graphGenerator.tracciaCammini();
+					//disegniamo i cammini
+					File filegrafo1=new File("cammini.dot");
+					FileWriter filewriter1=new FileWriter(filegrafo1);
+					PrintWriter printer1=new PrintWriter(filewriter1,true);
+					graphGenerator.disegnaCFG(printer1);
+				}
 			}
 			else{
 				System.out.println("File not Found");

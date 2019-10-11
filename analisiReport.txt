@@ -1,18 +1,4 @@
-La variabile raggio viene dichiarata al nodo NODO1
-       Viene definita al nodo NODO7,
-       raggiunge l'uso al nodo NODO8,
-       raggiunge l'uso al nodo NODO10;
-       raggiunge l'uso al nodo NODO10;
-La variabile area viene dichiarata al nodo NODO1
-       Viene  definita al nodo NODO10,
-       raggiunge l'uso al nodo NODO11;
-La variabile i viene dichiarata al nodo NODO1
-       Viene  definita al nodo NODO4,
-       raggiunge l'uso al nodo NODO6;
-       raggiunge l'uso al nodo NODO13;
-       Viene  definita al nodo NODO13,
-La variabile n viene dichiarata al nodo NODO1
-       Viene definita al nodo NODO3,
-       raggiunge l'uso al nodo NODO5,
-       raggiunge l'uso al nodo NODO12;
-       Viene  definita al nodo NODO12,
+Token: (x,NODO9)
+    Tripla: (NODO2,NODO3,x)
+    Tripla: (NODO2,NODO6,x)
+    Tripla: (NODO2,NODO9,x)
