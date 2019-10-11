@@ -71,8 +71,8 @@ public class GraphGenerator {
 			if((e.element().equals("TRUE      "))||(e.element().equals("FALSE"))) {
 				x.write(" [label=\""+e.element()+"\"]; ");
 			}
-			else if(e.element().equals("CAMMINO")) {
-				x.write(" [color=\"blue\"]; ");
+			else if(!(e.element().equals("NORMAL"))){
+				x.write(" [color=\"" +e.element()+"\"]");
 			}
 			x.println();
 		}
@@ -127,11 +127,15 @@ public class GraphGenerator {
 	}
 	
 	public void tracciaCammini() {
-		//String colori[]= {"blue","red","yellow","green","pink","brown","orange"};
+		String colori[]= {"blue","red","yellow","green","pink","brown","orange"};
+		String lastNode=triple.get(0).nodo1;
+		int i=0;
 		for(Tripla t:triple) {
-			if(token.nodo.equals(t.nodo1)) {
-				g.insertDirectedEdge(g.getNode(token.nodo), g.getNode(t.nodo2), "CAMMINO");
+			if(lastNode!=t.nodo1) {
+				lastNode=t.nodo1;
+				i++;
 			}
+			g.insertDirectedEdge(g.getNode(t.nodo1), g.getNode(t.nodo2), colori[i]);
 		}
 	}
 		
