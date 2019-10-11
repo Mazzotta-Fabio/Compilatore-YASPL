@@ -1,25 +1,24 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-int x,y,n;
+double media,sum,x,n,i;
 int main(void){
-	scanf("%d",&x);
+	printf("Quanti numeri?\n");
+	scanf("%lf",&n);
 
-	if(x>0)	{
-	n=1;
-	y=1;
-	while(x>1)	{
-	n=n+2;
-	y=y+n;
-	x=x-1;
+	i=1.0;
+	sum=0.0;
+	while(i<=n)	{
+	printf("x= \n");
+	scanf("%lf",&x);
+
+	sum=sum+x;
+	i=i+1.0;
 	}
 
 
-	printf("RISULTATO %d\n",y);
-	}
-
-
-	printf("PROGRAMMA FINITO\n");
+	media=sum/n;
+	printf("Valore della media= %f\n",media);
 	  system("pause");
 	return 0;
 }

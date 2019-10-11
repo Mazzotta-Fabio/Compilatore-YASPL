@@ -10,7 +10,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/provaTracciatura.txt");
+			File f=new File("sorgentiYASPL2/yasplIGES.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori
@@ -76,7 +76,7 @@ public class Driver {
 				PrintWriter printer=new PrintWriter(filewriter,true);
 				graphGenerator.disegnaCFG(printer);
 				//facciamo reaching definition
-				if(!(graphGenerator.eseguiReachingDefinition("x"))) {
+				if(!(graphGenerator.eseguiReachingDefinition("i"))) {
 					System.out.println("La variabile non esiste");
 				}
 				else {

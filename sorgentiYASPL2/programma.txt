@@ -13,7 +13,7 @@ start
         b=a+1;
     }
     else{
-       c<-int;
+       "Stampa variabile %d",c ->;
        while(b>0)
        do{
            "Stampa variabile y %d",y->;
