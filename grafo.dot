@@ -1,39 +1,63 @@
 diGraph G {
-NODO1 [label="NODO1 DICHIARAZIONIVARIABILI varAnnullate:i n x sum media "]
-NODO2 [label="NODO2 WRITE "]
+NODO1 [label="NODO1 DICHIARAZIONIVARIABILI varAnnullate:c b a y x "]
+NODO2 [label="NODO2 ASSIGN varDefinite:x "]
 NODO1 -> NODO2
-NODO2 [label="NODO2 WRITE "]
-NODO3 [label="NODO3 READ varDefinite:n "]
+NODO2 [label="NODO2 ASSIGN varDefinite:x "]
+NODO3 [label="NODO3 ASSIGN varDefinite:y "]
 NODO2 -> NODO3
-NODO3 [label="NODO3 READ varDefinite:n "]
-NODO4 [label="NODO4 ASSIGN varDefinite:i "]
+NODO3 [label="NODO3 ASSIGN varDefinite:y "]
+NODO4 [label="NODO4 WHILE3 varUsate:y "]
 NODO3 -> NODO4
-NODO4 [label="NODO4 ASSIGN varDefinite:i "]
-NODO5 [label="NODO5 ASSIGN varDefinite:sum "]
-NODO4 -> NODO5
-NODO5 [label="NODO5 ASSIGN varDefinite:sum "]
-NODO6 [label="NODO6 WHILE5 varUsate:i n "]
+NODO4 [label="NODO4 WHILE3 varUsate:y "]
+NODO5 [label="NODO5 READ varDefinite:a "]
+NODO4 -> NODO5 [label="TRUE      "]; 
+NODO5 [label="NODO5 READ varDefinite:a "]
+NODO6 [label="NODO6 ASSIGN varUsate:y varDefinite:c "]
 NODO5 -> NODO6
-NODO6 [label="NODO6 WHILE5 varUsate:i n "]
-NODO7 [label="NODO7 WRITE "]
-NODO6 -> NODO7 [label="TRUE      "]; 
-NODO7 [label="NODO7 WRITE "]
-NODO8 [label="NODO8 READ varDefinite:x "]
+NODO6 [label="NODO6 ASSIGN varUsate:y varDefinite:c "]
+NODO4 [label="NODO4 WHILE3 varUsate:y "]
+NODO6 -> NODO4
+NODO4 [label="NODO4 WHILE3 varUsate:y "]
+NODO7 [label="NODO7 WRITE varUsate:x "]
+NODO4 -> NODO7 [label="FALSE"]; 
+NODO7 [label="NODO7 WRITE varUsate:x "]
+NODO8 [label="NODO8 IFTHENELSE7 varUsate:a "]
 NODO7 -> NODO8
-NODO8 [label="NODO8 READ varDefinite:x "]
-NODO9 [label="NODO9 ASSIGN varUsate:sum x varDefinite:sum "]
-NODO8 -> NODO9
-NODO9 [label="NODO9 ASSIGN varUsate:sum x varDefinite:sum "]
-NODO10 [label="NODO10 ASSIGN varUsate:i varDefinite:i "]
-NODO9 -> NODO10
-NODO10 [label="NODO10 ASSIGN varUsate:i varDefinite:i "]
-NODO6 [label="NODO6 WHILE5 varUsate:i n "]
-NODO10 -> NODO6
-NODO6 [label="NODO6 WHILE5 varUsate:i n "]
-NODO11 [label="NODO11 ASSIGN varUsate:sum n varDefinite:media "]
-NODO6 -> NODO11 [label="FALSE"]; 
-NODO11 [label="NODO11 ASSIGN varUsate:sum n varDefinite:media "]
-NODO12 [label="NODO12 WRITE varUsate:media "]
-NODO11 -> NODO12
+NODO8 [label="NODO8 IFTHENELSE7 varUsate:a "]
+NODO9 [label="NODO9 ASSIGN varUsate:a varDefinite:b "]
+NODO8 -> NODO9 [label="TRUE      "]; 
+NODO8 [label="NODO8 IFTHENELSE7 varUsate:a "]
+NODO10 [label="NODO10 WRITE varUsate:c "]
+NODO8 -> NODO10 [label="FALSE"]; 
+NODO10 [label="NODO10 WRITE varUsate:c "]
+NODO11 [label="NODO11 WHILE10 varUsate:b "]
+NODO10 -> NODO11
+NODO11 [label="NODO11 WHILE10 varUsate:b "]
+NODO12 [label="NODO12 WRITE varUsate:y "]
+NODO11 -> NODO12 [label="TRUE      "]; 
+NODO12 [label="NODO12 WRITE varUsate:y "]
+NODO11 [label="NODO11 WHILE10 varUsate:b "]
+NODO12 -> NODO11
+NODO11 [label="NODO11 WHILE10 varUsate:b "]
+NODO13 [label="NODO13 ASSIGN varUsate:a b x varDefinite:x "]
+NODO11 -> NODO13 [label="FALSE"]; 
+NODO9 [label="NODO9 ASSIGN varUsate:a varDefinite:b "]
+NODO14 [label="NODO14 ASSIGN varDefinite:c "]
+NODO9 -> NODO14
+NODO13 [label="NODO13 ASSIGN varUsate:a b x varDefinite:x "]
+NODO14 [label="NODO14 ASSIGN varDefinite:c "]
+NODO13 -> NODO14
+NODO14 [label="NODO14 ASSIGN varDefinite:c "]
+NODO15 [label="NODO15 IFTHEN14 varUsate:c "]
+NODO14 -> NODO15
+NODO15 [label="NODO15 IFTHEN14 varUsate:c "]
+NODO16 [label="NODO16 WRITE varUsate:c "]
+NODO15 -> NODO16 [label="TRUE      "]; 
+NODO15 [label="NODO15 IFTHEN14 varUsate:c "]
+NODO17 [label="NODO17 ASSIGN varUsate:y c x varDefinite:a "]
+NODO15 -> NODO17 [label="FALSE"]; 
+NODO16 [label="NODO16 WRITE varUsate:c "]
+NODO17 [label="NODO17 ASSIGN varUsate:y c x varDefinite:a "]
+NODO16 -> NODO17
 
 }

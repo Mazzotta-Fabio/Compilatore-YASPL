@@ -1,24 +1,40 @@
 #include<stdio.h> 
 #include<stdlib.h>
 
-double media,sum,x,n,i;
+int x,y,a,b,c;
 int main(void){
-	printf("Quanti numeri?\n");
-	scanf("%lf",&n);
+	x=0;
+	y=0;
+	while(y==0)	{
+	scanf("%d",&a);
 
-	i=1.0;
-	sum=0.0;
-	while(i<=n)	{
-	printf("x= \n");
-	scanf("%lf",&x);
-
-	sum=sum+x;
-	i=i+1.0;
+	c=y;
 	}
 
 
-	media=sum/n;
-	printf("Valore della media= %f\n",media);
+	printf("Stampa variabile x %d\n",x);
+	if(a>0)	{
+	b=a+1;
+	}
+
+	else	{
+	printf("Stampa variabile %d\n",c);
+	while(b>0)	{
+	printf("Stampa variabile y %d\n",y);
+	}
+
+
+	x=a+b+x;
+	}
+
+
+	c=256;
+	if(c==256)	{
+	printf("Stampa variabile c %d\n",c);
+	}
+
+
+	a=y+c+x;
 	  system("pause");
 	return 0;
 }

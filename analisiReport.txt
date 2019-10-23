@@ -1,3 +1,5 @@
-Token: (i,NODO10)
-    Tripla: (NODO4,NODO6,i)
-    Tripla: (NODO4,NODO10,i)
+Token: (c,NODO14)
+    Tripla: (NODO6,NODO10,c)
+    Tripla: (NODO14,NODO15,c)
+    Tripla: (NODO14,NODO16,c)
+    Tripla: (NODO14,NODO17,c)
