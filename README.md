@@ -4,5 +4,4 @@ della Laurea Magistrale in Informatica.
 Il compilatore esegue l'analisi lessicale, sintattica e semantica applicata al linguaggio YASPL.
 Dopo queste fasi il linguaggio Yaspl viene tradotto in linguaggio C. 
 Nell'anno accademico 2018-2019, per l'esame di Ingegneria, gestione ed evoluzione del software, è stato aggiunto un tool di manutenzione 
-al compilatore che effettua l'analisi del flusso dei dati e poi viene fatta una verifica sulle anomalie dell'utilizzo delle variabili nei vari cammini di esecuzione.
-Poi per verficare il corretto flusso dell'analisi viene disegnato il control flow graph che evidenzia il passaggio del flusso d'esecuzione tra i vari statement.
+al compilatore che effettua l'analisi del flusso dei dati. Per fare ciò viene costruito il control flow graph relativo al programma in input. Per verificarne la correttezza viene disegnato utilizzando il software GraphViz. Sul grafo viene eseguito l'algoritmo di reaching definition su una variabile e ne vengono tracciati i cammini sul grafo.
