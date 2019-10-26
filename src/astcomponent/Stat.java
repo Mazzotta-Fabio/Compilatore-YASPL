@@ -555,7 +555,9 @@ public abstract class Stat implements AzioniCompilatore{
 			String nomeIstr="WHILE"+g.getNumeVer();
 			Vertex<String>v=g.insertVertex(nomeIstr);
 			g.addLastCond(nomeIstr);
-			g.insertDirectedEdge(lastNode, v, "NORMAL");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
+			}
 			cond.buildControlFlow(g);
 			stat.buildControlFlow(g);
 			g.changeStatement(nomeIstr);
@@ -624,7 +626,9 @@ public abstract class Stat implements AzioniCompilatore{
 			Vertex<String> lastNode=g.getLastNode();
 			String nomeIstr="IFTHEN"+g.getNumeVer();
 			Vertex<String>v=g.insertVertex(nomeIstr);
-			g.insertDirectedEdge(lastNode,v,"NORMAL");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
+			}
 			expr.buildControlFlow(g);
 			g.addLastCond(nomeIstr);
 			stat.buildControlFlow(g);
@@ -698,7 +702,9 @@ public abstract class Stat implements AzioniCompilatore{
 			Vertex<String> lastNode=g.getLastNode();
 			String nomeIstr="IFTHENELSE"+g.getNumeVer();
 			Vertex<String> v =g.insertVertex(nomeIstr);
-			g.insertDirectedEdge(lastNode, v, "NORMAL");
+			if(!(g.setEdgeFalseStatement(v))) {
+				g.insertDirectedEdge(lastNode, v, "NORMAL");
+			}
 			expr.buildControlFlow(g);
 			g.addLastCond(nomeIstr);
 			stat.buildControlFlow(g);
@@ -706,7 +712,7 @@ public abstract class Stat implements AzioniCompilatore{
 			lastNode=g.getLastNode();
 			stat2.buildControlFlow(g);
 			g.setLastNodeIfElseTrue(lastNode);
-			g.setLastNodeIfelseFalse(g.getLastNode());
+			//g.setLastNodeIfelseFalse(g.getLastNode());
 		}
 	}
 
