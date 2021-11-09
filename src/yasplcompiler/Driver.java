@@ -10,7 +10,7 @@ public class Driver {
 	
 	public static void main(String[] args)  {
 		try {
-			File f=new File("sorgentiYASPL2/programma.txt");
+			File f=new File("sorgentiYASPL2/areacerchio.txt");
 			if(f.exists()){
 				/*
 				 * parte progetto Compilatori
